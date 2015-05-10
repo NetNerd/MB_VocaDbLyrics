@@ -20,8 +20,8 @@ Public Class VocaDbLyricsLib
     ''' <summary>The URL of the site to get results from. This allows the library to be used for other sites based on the VocaDB code. Note that the only other such site, UtaiteDB, uses an older version of the API and is incompatible with this library (as of 2015-04-27).</summary>
     Public DatabaseUrl As Uri = New Uri("http://vocadb.net/")
 
-    ''' <summary>An array of strings used to split the artist field into multiple strings (eg. "feat.", "and").</summary>
-    Public ArtistSplitStrings() As String = {"feat.", "ft.", " X ", " x ", " Ｘ ", " ｘ ", "×", "✕", "✖", "⨯", "╳", ",", ";", "+", "(", "&", " and "}
+    ''' <summary>An array of strings used to split the artist field into multiple strings (eg. " feat.", " and ").</summary>
+    Public ArtistSplitStrings() As String = {" feat.", " ft.", " feat ", " ft ", " X ", " x ", " Ｘ ", " ｘ ", "×", "✕", "✖", "⨯", "╳", ",", ";", "+", "(", "&", " and "}
 
     ''' <summary>Sets how many entries the library will search for lyrics in before giving up. It will stop at the first original song found. Not applicable when getting lyrics by ID.</summary>
     Public SearchTries As UInt16 = 2

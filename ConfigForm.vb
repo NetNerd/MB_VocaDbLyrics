@@ -8,20 +8,24 @@ Public Class ConfigForm
     Private SaveSettings As Boolean = False
 
     Private Sub LangBox_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragDrop, LangBox2.DragDrop
+        Dim text As String = e.Data.GetData(DataFormats.Text)
+        If LangBox1.Items.Contains(text) Then
+            LangBox1.Items.Remove(text)
+            LangBox_Insert(sender, e)
+        ElseIf LangBox2.Items.Contains(text) Then
+            LangBox2.Items.Remove(text)
+            LangBox_Insert(sender, e)
+        End If
+    End Sub
+
+    Private Sub LangBox_Insert(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
+        Dim text As String = e.Data.GetData(DataFormats.Text)
         If sender.PointToClient(New Point(e.X, e.Y)).Y < 0 Then
-            sender.Items.Insert(0, e.Data.GetData(DataFormats.Text))
+            sender.Items.Insert(0, text)
         ElseIf sender.PointToClient(New Point(e.X, e.Y)).Y > sender.ItemHeight * sender.Items.Count Then
-            sender.Items.Add(e.Data.GetData(DataFormats.Text))
+            sender.Items.Add(text)
         Else
-            sender.Items.Insert(sender.PointToClient(New Point(e.X, e.Y)).Y / sender.ItemHeight, e.Data.GetData(DataFormats.Text))
-        End If
-
-        If LangBox1.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox1.Items(LangBox1.SelectedIndex) Then
-            LangBox1.Items.RemoveAt(LangBox1.SelectedIndex)
-        End If
-
-        If LangBox2.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox2.Items(LangBox2.SelectedIndex) Then
-            LangBox2.Items.RemoveAt(LangBox2.SelectedIndex)
+            sender.Items.Insert(sender.PointToClient(New Point(e.X, e.Y)).Y / sender.ItemHeight, text)
         End If
     End Sub
 
