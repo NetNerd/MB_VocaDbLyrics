@@ -18,7 +18,7 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "..\..\..\..\..\
 		AttachLaunchAction = No
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VocaDbLyricsLib", "..\VocaDbLyricsLib\VocaDbLyricsLib.vbproj", "{B4946A01-1651-4A00-A503-7191DFF831F1}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VocaDbLyricsLib", "VocaDbLyricsLib\VocaDbLyricsLib.vbproj", "{B4946A01-1651-4A00-A503-7191DFF831F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

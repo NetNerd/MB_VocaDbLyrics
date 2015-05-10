@@ -1,0 +1,3 @@
+[submodule "VocaDbLyricsLib"]
+	path = VocaDbLyricsLib
+	url = https://github.com/netnerd/VocaDbLyricsLib
