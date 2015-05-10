@@ -27,7 +27,7 @@ Public Class Plugin
 
         about.PluginInfoVersion = 0.1
         about.Name = "VocaDB Lyrics Plugin"
-        about.Description = "A lyric provider for VocaDB."
+        about.Description = "A lyrics provider for VocaDB."
         about.Author = "NetNerd"
         about.TargetApplication = "VocaDB"
         about.Type = PluginType.LyricsRetrieval
