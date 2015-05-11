@@ -7,35 +7,49 @@ Public Class ConfigForm
     Private UILanguage As Language
     Private SaveSettings As Boolean = False
 
-    Private Sub LangBox_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragDrop, LangBox2.DragDrop
-        Dim text As String = e.Data.GetData(DataFormats.Text)
-        If LangBox1.Items.Contains(text) Then
-            LangBox1.Items.Remove(text)
-            LangBox_Insert(sender, e)
-        ElseIf LangBox2.Items.Contains(text) Then
-            LangBox2.Items.Remove(text)
-            LangBox_Insert(sender, e)
-        End If
-    End Sub
-
-    Private Sub LangBox_Insert(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
-        Dim text As String = e.Data.GetData(DataFormats.Text)
+    Private Sub LangBox_DragDrop(ByVal sender As ListBox, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragDrop, LangBox2.DragDrop
         If sender.PointToClient(New Point(e.X, e.Y)).Y < 0 Then
-            sender.Items.Insert(0, text)
+            sender.Items.Insert(0, e.Data.GetData(DataFormats.Text))
         ElseIf sender.PointToClient(New Point(e.X, e.Y)).Y > sender.ItemHeight * sender.Items.Count Then
-            sender.Items.Add(text)
+            sender.Items.Add(e.Data.GetData(DataFormats.Text))
         Else
-            sender.Items.Insert(sender.PointToClient(New Point(e.X, e.Y)).Y / sender.ItemHeight, text)
+            sender.Items.Insert(sender.PointToClient(New Point(e.X, e.Y)).Y / sender.ItemHeight, e.Data.GetData(DataFormats.Text))
+        End If
+
+        'Remove the old item
+        If (LangBox1.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox1.Items(LangBox1.SelectedIndex)) Then
+            LangBox1.Items.RemoveAt(LangBox1.SelectedIndex)
+        ElseIf (LangBox2.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox2.Items(LangBox2.SelectedIndex)) Then
+            LangBox2.Items.RemoveAt(LangBox2.SelectedIndex)
         End If
     End Sub
 
-    Private Sub LangBox_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragOver, LangBox2.DragOver
-        e.Effect = DragDropEffects.Move
+    Private Sub LangBox_DragOver(ByVal sender As ListBox, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragOver, LangBox2.DragOver
+        'Only give the effect for an item that's from one of the listboxes
+        If (LangBox1.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox1.Items(LangBox1.SelectedIndex)) _
+            OrElse (LangBox2.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox2.Items(LangBox2.SelectedIndex)) Then
+            e.Effect = DragDropEffects.Move
+        Else
+            e.Effect = DragDropEffects.None
+        End If
     End Sub
 
-    Private Sub LangBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles LangBox1.MouseDown, LangBox2.MouseDown
-        Threading.Thread.Sleep(200)
-        sender.DoDragDrop(sender.Text, DragDropEffects.All)
+    Private Sub LangBox_MouseDown(ByVal sender As ListBox, ByVal e As System.Windows.Forms.MouseEventArgs) Handles LangBox1.MouseDown, LangBox2.MouseDown
+        Dim OldSelected As Integer = sender.SelectedIndex
+        Dim OldSelectedText As String = sender.Text
+        Dim OldCount As Integer = sender.Items.Count
+
+        sender.SelectionMode = SelectionMode.One
+        Try
+            sender.DoDragDrop(sender.Items(sender.IndexFromPoint(New Point(e.X, e.Y))), DragDropEffects.Move)
+        Catch
+            sender.SelectionMode = SelectionMode.None 'You can drag over items to select them. This prevents that when you drag from a blank area.
+        End Try
+
+        'If the old selected item is still in the same place, select it again because the user (hopefully) didn't want anything to change.
+        If sender.Items.Count = OldCount AndAlso sender.Items(OldSelected) = OldSelectedText Then
+            sender.SelectedIndex = OldSelected
+        End If
     End Sub
 
     Private Sub BtnL_Click(sender As Object, e As EventArgs) Handles BtnL.Click
