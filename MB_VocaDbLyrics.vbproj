@@ -112,6 +112,12 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="VocaDbLyricsLib\VocaDbLyricsLib.vbproj">
+      <Project>{b4946a01-1651-4a00-a503-7191dff831f1}</Project>
+      <Name>VocaDbLyricsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
