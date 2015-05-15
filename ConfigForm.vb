@@ -24,7 +24,7 @@ Public Class ConfigForm
         End If
     End Sub
 
-    Private Sub LangBox_DragOver(ByVal sender As ListBox, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragOver, LangBox2.DragOver
+    Private Sub LangBox_DragEnter(ByVal sender As ListBox, ByVal e As System.Windows.Forms.DragEventArgs) Handles LangBox1.DragEnter, LangBox2.DragEnter
         'Only give the effect for an item that's from one of the listboxes
         If (LangBox1.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox1.Items(LangBox1.SelectedIndex)) _
             OrElse (LangBox2.SelectedIndex > -1 AndAlso e.Data.GetData(DataFormats.Text) Is LangBox2.Items(LangBox2.SelectedIndex)) Then
