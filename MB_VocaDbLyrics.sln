@@ -5,19 +5,6 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MB_VocaDbLyrics", "MB_VocaDbLyrics.vbproj", "{E7B9B8C3-4B39-4E3B-A22D-59234946DAB9}"
 EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "..\..\..\..\..\Program Files (x86)\MusicBee\MusicBee.exe", "{C536D10D-E458-4B5C-867C-A07AC6B20C81}"
-	ProjectSection(DebuggerProjectSystem) = preProject
-		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = D:\Program Files (x86)\MusicBee\MusicBee.exe
-		RemoteMachine = NERD-PC
-		StartingDirectory = D:\Program Files (x86)\MusicBee
-		Environment = Default
-		LaunchingEngine = 00000000-0000-0000-0000-000000000000
-		UseLegacyDebugEngines = No
-		LaunchSQLEngine = No
-		AttachLaunchAction = No
-	EndProjectSection
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VocaDbLyricsLib", "VocaDbLyricsLib\VocaDbLyricsLib.vbproj", "{B4946A01-1651-4A00-A503-7191DFF831F1}"
 EndProject
 Global
@@ -40,12 +27,6 @@ Global
 		{E7B9B8C3-4B39-4E3B-A22D-59234946DAB9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E7B9B8C3-4B39-4E3B-A22D-59234946DAB9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E7B9B8C3-4B39-4E3B-A22D-59234946DAB9}.Release|x86.ActiveCfg = Release|Any CPU
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Debug|x86.ActiveCfg = Debug|x86
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Release|Any CPU.ActiveCfg = Debug|x86
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Release|Mixed Platforms.ActiveCfg = Debug|x86
-		{C536D10D-E458-4B5C-867C-A07AC6B20C81}.Release|x86.ActiveCfg = Debug|x86
 		{B4946A01-1651-4A00-A503-7191DFF831F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4946A01-1651-4A00-A503-7191DFF831F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4946A01-1651-4A00-A503-7191DFF831F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -102,6 +102,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -119,6 +120,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir Merged
+ilmerge /t:library /targetplatform:4 /out:"Merged\MB_VocaDbLyrics.dll" MB_VocaDbLyrics.dll VocaDbLyricsLib.dll
+cp Merged\MB_VocaDbLyrics.dll "D:\Program Files (x86)\MusicBee\Plugins"
+cp Merged\MB_VocaDbLyrics.pdb "D:\Program Files (x86)\MusicBee\Plugins"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
