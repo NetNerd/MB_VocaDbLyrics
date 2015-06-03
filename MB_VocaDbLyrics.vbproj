@@ -128,7 +128,7 @@ cp Merged\MB_VocaDbLyrics.pdb "D:\Program Files (x86)\MusicBee\Plugins"
 
 rm MB_VocaDbLyrics.zip
 cd Merged
-7z a "..\MB_VocaDbLyrics.zip" "MB_VocaDbLyrics.dll" "..\..\..\README.md" "..\..\..\LICENSE"</PostBuildEvent>
+7z a "..\MB_VocaDbLyrics.zip" "MB_VocaDbLyrics.dll" "..\..\..\README.txt" "..\..\..\LICENSE"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
