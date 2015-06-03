@@ -45,7 +45,7 @@ Public Class Plugin
         End If
 
         about.PluginInfoVersion = 0.1
-        about.Name = "VocaDB Lyrics Plugin"
+        about.Name = "MB_VocaDbLyrics"
         about.Description = "A lyrics provider for VocaDB."
         about.Author = "NetNerd"
         about.TargetApplication = "VocaDB"

@@ -154,7 +154,7 @@ Partial Class ConfigForm
         Me.LblApplySave.Name = "LblApplySave"
         Me.LblApplySave.Size = New System.Drawing.Size(288, 26)
         Me.LblApplySave.TabIndex = 10
-        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any change" & _
+        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any change" &
     "s."
         Me.LblApplySave.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -188,7 +188,7 @@ Partial Class ConfigForm
         Me.Controls.Add(Me.LangBox2)
         Me.Controls.Add(Me.LangBox1)
         Me.Name = "ConfigForm"
-        Me.Text = "VocaDB Lyrics Config"
+        Me.Text = "MB_VocaDbLyrics Config"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

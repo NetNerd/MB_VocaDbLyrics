@@ -72,18 +72,18 @@ Public Class LanguageClass
     End Structure
 
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
-                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "Interface Language:", .LblApplySave = "You must also click Apply or Save in the MusicBee settings box to save any changes.",
+                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "Interface Language:", .LblApplySave = "You must also click Apply or Save on the MusicBee settings page to save any changes.",
                                                           .BtnReset = "Reset", .BtnOk = "OK", .BtnCancel = "Cancel",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
-                                                          .UninstallErrorMsg1 = "The VocaDB Lyrics plugin failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:"}
+                                                          .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:"}
 
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "使用できる言語：", .LblLang2 = "表示される言語：", .LblUI = "インターフェイスの言語：", .LblApplySave = "また、変更を保存するには、MusicBeeの設定で適用又は保存するをクリックなければなりません。",
+                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblApplySave = "変更を保存するためにMusicBeeの設定ダイアログで「適用」又は「保存」をクリックすのが必要です。",
                                                         .BtnReset = "リセット", .BtnOk = "OK", .BtnCancel = "キャンセル",
-                                                        .SaveErrorMsg = "ファイルは保存できませんでした。", .FolderCreateErrorMsg = "フォルダは作成できませんでした。",
-                                                        .UninstallErrorMsg1 = "VocaDB Lyricsプラグインの構成ファイルの削除に失敗しました。", .UninstallErrorMsg2 = "残りのファイルが次の場所にあります。"}
+                                                        .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
+                                                        .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所："}
     'Public Shared ReadOnly LangList() As Language = {LangEnUS, LangEnGB, LangJa}
     Public Shared Function LangList() As Language()
         Return {LangEnUS, LangEnGB, LangJa}
