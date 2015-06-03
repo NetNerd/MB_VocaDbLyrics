@@ -18,7 +18,7 @@ User-defined interface languages are not currently supported.
 
 
 ### Building:
-To successfully complete a build of MB_VocaDbLyrics, copies of ILMerge and 7z will be needed in the path environment variable. Without these, the output will be suitable for testing but not for a final release.
+To successfully complete a build of MB_VocaDbLyrics, copies of [ILMerge](http://research.microsoft.com/en-us/people/mbarnett/ilmerge.aspx) and [7z](http://www.7-zip.org/) will be needed in the path environment variable. Without these, the output will be suitable for testing but not for a final release.
 
 If you do build MB_VocaDbLyrics yourself, you'll most likely want to modify the post build events to suit your system, primarily the commands which copy the plugin to "D:\Program Files (x86)\MusicBee\Plugins" (in my config).
 
