@@ -26,3 +26,5 @@ MB_VocaDbLyrics comes with no warranty or guarantees. It probably won't break an
 
 ### Licensing:
 MB_VocaDbLyrics is licensed under the GPL v3.
+
+Source code can be found at https://github.com/NetNerd/MB_VocaDbLyrics.
