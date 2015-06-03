@@ -6,7 +6,7 @@ I don't think there's any major issues with it, but I've been wrong about many t
 
 VocaDbLyricsLib is used to retrieve the lyrics. This is another open source project created by me that makes it very easy to get the lyrics.
 
-
+&nbsp;
 
 ### Usage notes:
 Usage is simple, just place any DLLs in the MusicBee plugins directory.
@@ -15,7 +15,7 @@ A visual interface is provided via the MusicBee plugin settings page. This allow
 Multilingual support is very basic and ideally should be rewritten, but for now this isn't a major issue.
 User-defined interface languages are not currently supported.
 
-
+&nbsp;
 
 ### Building:
 To successfully complete a build of MB_VocaDbLyrics, copies of [ILMerge](http://research.microsoft.com/en-us/people/mbarnett/ilmerge.aspx) and [7z](http://www.7-zip.org/) will be needed in the path environment variable. Without these, the output will be suitable for testing but not for a final release.
@@ -26,14 +26,14 @@ You may also wish to set the start action (under the debug tab of the project pr
 
 I am currently working in the Visual Studio 2015 Community RC. As far as I know, there should be no compatibility issues when using VS 2013, but I haven't even tried loading the solution in the older version.
 
-
+&nbsp;
 
 ### Legal info:
 NetNerd is not affiliated in any way with VocaDB.
 
 MB_VocaDbLyrics comes with no warranty or guarantees. It probably won't break anything, but I won't promise you anything. Use is at your own risk.
 
-
+&nbsp;
 
 ### Licensing:
 MB_VocaDbLyrics is licensed under the GPL v3.
