@@ -1,4 +1,23 @@
-﻿Imports System.Windows.Forms
+﻿'Copyright © 2015 NetNerd
+
+
+'This file is part of MB_VocaDbLyrics.
+
+'MB_VocaDbLyrics is free software: you can redistribute it and/or modify
+'it under the terms Of the GNU General Public License As published by
+'the Free Software Foundation, either version 3 Of the License, Or
+'(at your option) any later version.
+
+'MB_VocaDbLyrics Is distributed In the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty Of
+'MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License For more details.
+
+'You should have received a copy Of the GNU General Public License
+'along with MB_VocaDbLyrics.  If Not, see < http: //www.gnu.org/licenses/>.
+
+
+Imports System.Windows.Forms
 Imports System.Drawing
 Imports MusicBeePlugin.LanguageClass
 

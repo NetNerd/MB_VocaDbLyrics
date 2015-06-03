@@ -1,4 +1,23 @@
-﻿Imports System.Runtime.InteropServices
+﻿'Copyright © 2015 NetNerd
+
+
+'This file is part of MB_VocaDbLyrics.
+
+'MB_VocaDbLyrics is free software: you can redistribute it and/or modify
+'it under the terms Of the GNU General Public License As published by
+'the Free Software Foundation, either version 3 Of the License, Or
+'(at your option) any later version.
+
+'MB_VocaDbLyrics Is distributed In the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty Of
+'MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License For more details.
+
+'You should have received a copy Of the GNU General Public License
+'along with MB_VocaDbLyrics.  If Not, see < http: //www.gnu.org/licenses/>.
+
+
+Imports System.Runtime.InteropServices
 Imports System.Drawing
 Imports System.Windows.Forms
 Imports MusicBeePlugin.LanguageClass
@@ -17,9 +36,9 @@ Public Class Plugin
     Private UseTempSettings As Boolean = False
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
-        'I'm not quite sure exactly what this does, but it seems important.
-        'I'm guessing it's just simple initilisation.
-        'Anyway, this is cleaner than what was in the sample plugin and works fine for us.
+        'I'm not quite sure exactly what this does.
+        'It seems like it's just simple initilisation, but done kinda weird.
+        'Anyway, this is cleaner than what was in the sample plugin and works fine for me.
         CopyMemory(mbApiInterface, apiInterfacePtr, 4)
         If mbApiInterface.MusicBeeVersion > -1 Then
             CopyMemory(mbApiInterface, apiInterfacePtr, 456)
