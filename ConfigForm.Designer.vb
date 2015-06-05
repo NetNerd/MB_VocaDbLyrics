@@ -41,6 +41,7 @@ Partial Class ConfigForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConfigForm))
         Me.LblLang2 = New System.Windows.Forms.Label()
         Me.LblLang1 = New System.Windows.Forms.Label()
         Me.BtnR = New System.Windows.Forms.Button()
@@ -154,8 +155,7 @@ Partial Class ConfigForm
         Me.LblApplySave.Name = "LblApplySave"
         Me.LblApplySave.Size = New System.Drawing.Size(288, 26)
         Me.LblApplySave.TabIndex = 10
-        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any change" &
-    "s."
+        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any changes."
         Me.LblApplySave.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BtnCancel
@@ -187,6 +187,7 @@ Partial Class ConfigForm
         Me.Controls.Add(Me.BtnL)
         Me.Controls.Add(Me.LangBox2)
         Me.Controls.Add(Me.LangBox1)
+        Me.Icon = CType(resources.GetObject("icon"), System.Drawing.Icon)
         Me.Name = "ConfigForm"
         Me.Text = "MB_VocaDbLyrics Config"
         Me.ResumeLayout(False)
