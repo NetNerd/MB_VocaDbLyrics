@@ -88,4 +88,8 @@ Public Class LanguageClass
     Public Shared Function LangList() As Language()
         Return {LangEnUS, LangEnGB, LangJa}
     End Function
+
+    Public Shared Function FallbackHelper(Str As String, Fallback As String)
+        If Str IsNot Nothing Then Return Str Else Return Fallback
+    End Function
 End Class

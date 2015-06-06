@@ -168,13 +168,13 @@ Public Class ConfigForm
     End Sub
 
     Private Sub TranslateLblsBtns()
-        If UILanguage.LblLang1 IsNot Nothing Then LblLang1.Text = UILanguage.LblLang1 Else LblLang1.Text = LangEnUS.LblLang1
-        If UILanguage.LblLang2 IsNot Nothing Then LblLang2.Text = UILanguage.LblLang2 Else LblLang2.Text = LangEnUS.LblLang2
-        If UILanguage.LblUI IsNot Nothing Then LblUI.Text = UILanguage.LblUI Else LblUI.Text = LangEnUS.LblUI
-        If UILanguage.LblApplySave IsNot Nothing Then LblApplySave.Text = UILanguage.LblApplySave Else LblApplySave.Text = LangEnUS.LblApplySave
-        If UILanguage.BtnReset IsNot Nothing Then BtnReset.Text = UILanguage.BtnReset Else BtnReset.Text = LangEnUS.BtnReset
-        If UILanguage.BtnOk IsNot Nothing Then BtnOk.Text = UILanguage.BtnOk Else BtnOk.Text = LangEnUS.BtnOk
-        If UILanguage.BtnCancel IsNot Nothing Then BtnCancel.Text = UILanguage.BtnCancel Else BtnCancel.Text = LangEnUS.BtnCancel
+        LblLang1.Text = FallbackHelper(UILanguage.LblLang1, LangEnUS.LblLang1)
+        LblLang2.Text = FallbackHelper(UILanguage.LblLang2, LangEnUS.LblLang2)
+        LblUI.Text = FallbackHelper(UILanguage.LblUI, LangEnUS.LblUI)
+        LblApplySave.Text = FallbackHelper(UILanguage.LblApplySave, LangEnUS.LblApplySave)
+        BtnReset.Text = FallbackHelper(UILanguage.BtnReset, LangEnUS.BtnReset)
+        BtnOk.Text = FallbackHelper(UILanguage.BtnOk, LangEnUS.BtnOk)
+        BtnCancel.Text = FallbackHelper(UILanguage.BtnCancel, LangEnUS.BtnCancel)
     End Sub
 End Class
 

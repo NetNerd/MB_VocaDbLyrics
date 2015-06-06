@@ -85,8 +85,7 @@ Public Class Plugin
             Try
                 FileIO.FileSystem.CreateDirectory(SettingsPath)
             Catch ex As Exception
-                Dim Msg As String
-                If MySettings.UILanguage.FolderCreateErrorMsg IsNot Nothing Then Msg = MySettings.UILanguage.FolderCreateErrorMsg Else Msg = LangEnUS.FolderCreateErrorMsg
+                Dim Msg As String = FallbackHelper(MySettings.UILanguage.FolderCreateErrorMsg, LangEnUS.FolderCreateErrorMsg)
                 MsgBox(SettingsPath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
             End Try
         End If
@@ -105,16 +104,14 @@ Public Class Plugin
         Try
             FileIO.FileSystem.WriteAllText(SettingsPath & "LangOrder.conf", LangOrder, False)
         Catch ex As Exception
-            Dim Msg As String
-            If MySettings.UILanguage.SaveErrorMsg IsNot Nothing Then Msg = MySettings.UILanguage.SaveErrorMsg Else Msg = LangEnUS.SaveErrorMsg
+            Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
             MsgBox("LangOrder.conf:" & vbNewLine & Msg)
         End Try
 
         Try
             FileIO.FileSystem.WriteAllText(SettingsPath & "UILang.conf", MySettings.UILanguage.Culture, False)
         Catch ex As Exception
-            Dim Msg As String
-            If MySettings.UILanguage.SaveErrorMsg IsNot Nothing Then Msg = MySettings.UILanguage.SaveErrorMsg Else Msg = LangEnUS.SaveErrorMsg
+            Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
             MsgBox("UILang.conf:" & vbNewLine & Msg)
         End Try
     End Sub
@@ -132,10 +129,8 @@ Public Class Plugin
             FileIO.FileSystem.DeleteFile(SettingsPath & "UILang.conf")
             FileIO.FileSystem.DeleteDirectory(SettingsPath, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
         Catch ex As Exception
-            Dim Msg1 As String
-            Dim Msg2 As String
-            If MySettings.UILanguage.UninstallErrorMsg1 IsNot Nothing Then Msg1 = MySettings.UILanguage.UninstallErrorMsg1 Else Msg1 = LangEnUS.UninstallErrorMsg1
-            If MySettings.UILanguage.UninstallErrorMsg2 IsNot Nothing Then Msg2 = MySettings.UILanguage.UninstallErrorMsg2 Else Msg2 = LangEnUS.UninstallErrorMsg2
+            Dim Msg1 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg1, LangEnUS.UninstallErrorMsg1)
+            Dim Msg2 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg2, LangEnUS.UninstallErrorMsg2)
             MsgBox(Msg1 & vbNewLine & vbNewLine & Msg2 & vbNewLine & SettingsPath.TrimEnd("\".ToCharArray))
         End Try
     End Sub
