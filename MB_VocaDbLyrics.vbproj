@@ -123,15 +123,28 @@
     <None Include="Resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <PropertyGroup>
+  
+  <Target Name="PostBuildMacros">
+	<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+		<Output TaskParameter="Assemblies" ItemName="Targets" />
+	</GetAssemblyIdentity>
+	<ItemGroup>
+		<VersionNumber Include="@(Targets->'%(Version)')"/>
+	</ItemGroup>
+	</Target>
+	<PropertyGroup>
+	<PostBuildEventDependsOn>
+		$(PostBuildEventDependsOn);
+		PostBuildMacros;
+	</PostBuildEventDependsOn> 
     <PostBuildEvent>mkdir Merged
 ilmerge /t:library /targetplatform:4 /out:"Merged\MB_VocaDbLyrics.dll" MB_VocaDbLyrics.dll VocaDbLyricsLib.dll
 cp Merged\MB_VocaDbLyrics.dll "D:\Program Files (x86)\MusicBee\Plugins"
 cp Merged\MB_VocaDbLyrics.pdb "D:\Program Files (x86)\MusicBee\Plugins"
 
-rm MB_VocaDbLyrics.zip
+rm MB_VocaDbLyrics.@(VersionNumber)_$(ConfigurationName).zip
 cd Merged
-7z a "..\MB_VocaDbLyrics.zip" "MB_VocaDbLyrics.dll" "..\..\..\README.txt" "..\..\..\LICENSE"</PostBuildEvent>
+7z a "..\MB_VocaDbLyrics.@(VersionNumber)_$(ConfigurationName).zip" "MB_VocaDbLyrics.dll" "..\..\..\README.txt" "..\..\..\LICENSE"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
