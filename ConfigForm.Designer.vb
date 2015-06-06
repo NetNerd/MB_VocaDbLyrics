@@ -187,7 +187,7 @@ Partial Class ConfigForm
         Me.Controls.Add(Me.BtnL)
         Me.Controls.Add(Me.LangBox2)
         Me.Controls.Add(Me.LangBox1)
-        Me.Icon = CType(resources.GetObject("icon"), System.Drawing.Icon)
+        Me.Icon = My.Resources.icon
         Me.Name = "ConfigForm"
         Me.Text = "MB_VocaDbLyrics Config"
         Me.ResumeLayout(False)
