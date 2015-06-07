@@ -41,7 +41,6 @@ Partial Class ConfigForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConfigForm))
         Me.LblLang2 = New System.Windows.Forms.Label()
         Me.LblLang1 = New System.Windows.Forms.Label()
         Me.BtnR = New System.Windows.Forms.Button()
@@ -54,6 +53,8 @@ Partial Class ConfigForm
         Me.UILangCB = New System.Windows.Forms.ComboBox()
         Me.LblApplySave = New System.Windows.Forms.Label()
         Me.BtnCancel = New System.Windows.Forms.Button()
+        Me.BlanksCB = New System.Windows.Forms.ComboBox()
+        Me.LblBlanks = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'LblLang2
@@ -115,7 +116,7 @@ Partial Class ConfigForm
         Me.BtnOk.Location = New System.Drawing.Point(221, 150)
         Me.BtnOk.Name = "BtnOk"
         Me.BtnOk.Size = New System.Drawing.Size(75, 23)
-        Me.BtnOk.TabIndex = 9
+        Me.BtnOk.TabIndex = 12
         Me.BtnOk.Text = "OK"
         Me.BtnOk.UseVisualStyleBackColor = True
         '
@@ -124,7 +125,7 @@ Partial Class ConfigForm
         Me.BtnReset.Location = New System.Drawing.Point(12, 150)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(75, 23)
-        Me.BtnReset.TabIndex = 8
+        Me.BtnReset.TabIndex = 10
         Me.BtnReset.Text = "Reset"
         Me.BtnReset.UseVisualStyleBackColor = True
         '
@@ -141,9 +142,9 @@ Partial Class ConfigForm
         '
         Me.UILangCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.UILangCB.FormattingEnabled = True
-        Me.UILangCB.Location = New System.Drawing.Point(12, 110)
+        Me.UILangCB.Location = New System.Drawing.Point(12, 111)
         Me.UILangCB.Name = "UILangCB"
-        Me.UILangCB.Size = New System.Drawing.Size(121, 21)
+        Me.UILangCB.Size = New System.Drawing.Size(120, 21)
         Me.UILangCB.TabIndex = 7
         '
         'LblApplySave
@@ -154,8 +155,9 @@ Partial Class ConfigForm
         Me.LblApplySave.MinimumSize = New System.Drawing.Size(288, 0)
         Me.LblApplySave.Name = "LblApplySave"
         Me.LblApplySave.Size = New System.Drawing.Size(288, 26)
-        Me.LblApplySave.TabIndex = 10
-        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any changes."
+        Me.LblApplySave.TabIndex = 13
+        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any change" &
+    "s."
         Me.LblApplySave.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BtnCancel
@@ -168,6 +170,25 @@ Partial Class ConfigForm
         Me.BtnCancel.Text = "Cancel"
         Me.BtnCancel.UseVisualStyleBackColor = True
         '
+        'BlanksCB
+        '
+        Me.BlanksCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.BlanksCB.FormattingEnabled = True
+        Me.BlanksCB.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8"})
+        Me.BlanksCB.Location = New System.Drawing.Point(176, 111)
+        Me.BlanksCB.Name = "BlanksCB"
+        Me.BlanksCB.Size = New System.Drawing.Size(120, 21)
+        Me.BlanksCB.TabIndex = 9
+        '
+        'LblBlanks
+        '
+        Me.LblBlanks.AutoSize = True
+        Me.LblBlanks.Location = New System.Drawing.Point(174, 95)
+        Me.LblBlanks.Name = "LblBlanks"
+        Me.LblBlanks.Size = New System.Drawing.Size(84, 13)
+        Me.LblBlanks.TabIndex = 8
+        Me.LblBlanks.Text = "Separator Lines:"
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.BtnOk
@@ -175,6 +196,8 @@ Partial Class ConfigForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.BtnCancel
         Me.ClientSize = New System.Drawing.Size(308, 211)
+        Me.Controls.Add(Me.LblBlanks)
+        Me.Controls.Add(Me.BlanksCB)
         Me.Controls.Add(Me.BtnCancel)
         Me.Controls.Add(Me.LblApplySave)
         Me.Controls.Add(Me.UILangCB)
@@ -187,7 +210,7 @@ Partial Class ConfigForm
         Me.Controls.Add(Me.BtnL)
         Me.Controls.Add(Me.LangBox2)
         Me.Controls.Add(Me.LangBox1)
-        Me.Icon = My.Resources.icon
+        Me.Icon = Global.MusicBeePlugin.My.Resources.Resources.icon
         Me.Name = "ConfigForm"
         Me.Text = "MB_VocaDbLyrics Config"
         Me.ResumeLayout(False)
@@ -206,4 +229,6 @@ Partial Class ConfigForm
     Friend WithEvents UILangCB As System.Windows.Forms.ComboBox
     Friend WithEvents LblApplySave As System.Windows.Forms.Label
     Friend WithEvents BtnCancel As System.Windows.Forms.Button
+    Friend WithEvents BlanksCB As Windows.Forms.ComboBox
+    Friend WithEvents LblBlanks As Windows.Forms.Label
 End Class

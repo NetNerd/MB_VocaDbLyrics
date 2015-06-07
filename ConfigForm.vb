@@ -93,8 +93,9 @@ Public Class ConfigForm
         Next
 
         UILanguage = TempSettings.Settings.UILanguage
-
         UILangCB.SelectedItem = UILanguage.Name
+
+        BlanksCB.SelectedItem = TempSettings.Settings.BlankCount.ToString
 
         For Each Lang As String In TempSettings.Settings.LangBox1Items
             LangBox1.Items.Add(TempSettings.Settings.UILanguage.LocalizeFromString(Lang))
@@ -142,6 +143,8 @@ Public Class ConfigForm
             Next
 
             TempSettings.Settings.UILanguage = UILanguage
+
+            TempSettings.Settings.BlankCount = BlanksCB.SelectedItem
         End If
         Me.Dispose()
     End Sub
@@ -171,6 +174,7 @@ Public Class ConfigForm
         LblLang1.Text = FallbackHelper(UILanguage.LblLang1, LangEnUS.LblLang1)
         LblLang2.Text = FallbackHelper(UILanguage.LblLang2, LangEnUS.LblLang2)
         LblUI.Text = FallbackHelper(UILanguage.LblUI, LangEnUS.LblUI)
+        LblBlanks.Text = FallbackHelper(UILanguage.LblBlanks, LangEnUS.LblBlanks)
         LblApplySave.Text = FallbackHelper(UILanguage.LblApplySave, LangEnUS.LblApplySave)
         BtnReset.Text = FallbackHelper(UILanguage.BtnReset, LangEnUS.BtnReset)
         BtnOk.Text = FallbackHelper(UILanguage.BtnOk, LangEnUS.BtnOk)

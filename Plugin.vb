@@ -27,12 +27,13 @@ Public Class Plugin
         Dim LangBox1Items() As String
         Dim LangBox2Items() As String
         Dim UILanguage As Language
+        Dim BlankCount As Byte
     End Structure
 
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As SettingsCollection
+    Private MySettings As New SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5}
     Private UseTempSettings As Boolean = False
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
@@ -78,6 +79,7 @@ Public Class Plugin
     Public Sub SaveSettings()
         If UseTempSettings = True Then MySettings = TempSettings.Settings
         UseTempSettings = False
+
         ' save any persistent settings in a sub-folder of this path
         Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
 
@@ -101,18 +103,17 @@ Public Class Plugin
             LangOrder = LangOrder & Lang & ","
         Next
 
-        Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "LangOrder.conf", LangOrder, False)
-        Catch ex As Exception
-            Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
-            MsgBox("LangOrder.conf:" & vbNewLine & Msg)
-        End Try
+        WriteConfig(SettingsPath, "LangOrder.conf", LangOrder)
+        WriteConfig(SettingsPath, "UILang.conf", MySettings.UILanguage.Culture)
+        WriteConfig(SettingsPath, "BlankCount.conf", MySettings.BlankCount)
+    End Sub
 
+    Private Sub WriteConfig(Path As String, FileName As String, Data As String)
         Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "UILang.conf", MySettings.UILanguage.Culture, False)
+            FileIO.FileSystem.WriteAllText(Path & FileName, Data, False)
         Catch ex As Exception
             Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
-            MsgBox("UILang.conf:" & vbNewLine & Msg)
+            MsgBox(FileName & ":" & vbNewLine & Msg)
         End Try
     End Sub
 
@@ -127,6 +128,7 @@ Public Class Plugin
         Try
             FileIO.FileSystem.DeleteFile(SettingsPath & "LangOrder.conf")
             FileIO.FileSystem.DeleteFile(SettingsPath & "UILang.conf")
+            FileIO.FileSystem.DeleteFile(SettingsPath & "BlankCount.conf")
             FileIO.FileSystem.DeleteDirectory(SettingsPath, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
         Catch ex As Exception
             Dim Msg1 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg1, LangEnUS.UninstallErrorMsg1)
@@ -145,9 +147,11 @@ Public Class Plugin
                 Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
 
                 'Default settings. These are overwritten by the code underneath.
-                MySettings.UILanguage = LangEnUS
-                MySettings.LangBox1Items = {"Japanese"}
-                MySettings.LangBox2Items = {"Romaji", "English"}
+                '(Now specified at creation of the object)
+                'MySettings.UILanguage = LangEnUS
+                'MySettings.LangBox1Items = {"Japanese"}
+                'MySettings.LangBox2Items = {"Romaji", "English"}
+                'MySettings.BlankCount = 6
 
                 If FileIO.FileSystem.FileExists(SettingsPath & "UILang.conf") Then
                     Dim UILang As String = FileIO.FileSystem.ReadAllText(SettingsPath & "UILang.conf")
@@ -171,6 +175,10 @@ Public Class Plugin
                     For i = 0 To Box2.Length - 1
                         MySettings.LangBox2Items(i) = Box2(i)
                     Next
+                End If
+
+                If FileIO.FileSystem.FileExists(SettingsPath & "BlankCount.conf") Then
+                    MySettings.BlankCount = FileIO.FileSystem.ReadAllText(SettingsPath & "BlankCount.conf")
                 End If
         End Select
     End Sub
@@ -206,7 +214,12 @@ Public Class Plugin
             For Each Lang In MySettings.LangBox2Items
                 For Each LyricsContainer In LyricsResult.LyricsContainers
                     If LyricsContainer.Language = Lang Then
-                        If LyricsWriter.ToString.Length > 0 Then LyricsWriter.Write(vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine)
+                        'If LyricsWriter.ToString.Length > 0 Then LyricsWriter.Write(vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine)
+                        If LyricsWriter.ToString.Length > 0 Then
+                            For i = 0 To MySettings.BlankCount
+                                LyricsWriter.Write(vbNewLine)
+                            Next
+                        End If
                         If MySettings.LangBox2Items.Count > 1 Then LyricsWriter.WriteLine(MySettings.UILanguage.LocalizeFromString(Lang) & ":")
                         LyricsWriter.Write(LyricsContainer.Lyrics)
                     End If
