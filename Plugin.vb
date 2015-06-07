@@ -205,9 +205,9 @@ Public Class Plugin
         If LyricsResult.ErrorType = VocaDbLyricsLib.VocaDbLyricsError.None Then
             For Each Lang In MySettings.LangBox2Items
                 For Each LyricsContainer In LyricsResult.LyricsContainers
-                    If (LyricsContainer.Language = Lang) Then
+                    If LyricsContainer.Language = Lang Then
                         If LyricsWriter.ToString.Length > 0 Then LyricsWriter.Write(vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine)
-                        LyricsWriter.WriteLine(MySettings.UILanguage.LocalizeFromString(Lang) & ":")
+                        If MySettings.LangBox2Items.Count > 1 Then LyricsWriter.WriteLine(MySettings.UILanguage.LocalizeFromString(Lang) & ":")
                         LyricsWriter.Write(LyricsContainer.Lyrics)
                     End If
                 Next
