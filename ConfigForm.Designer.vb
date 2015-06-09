@@ -62,18 +62,18 @@ Partial Class ConfigForm
         Me.LblLang2.AutoSize = True
         Me.LblLang2.Location = New System.Drawing.Point(174, 10)
         Me.LblLang2.Name = "LblLang2"
-        Me.LblLang2.Size = New System.Drawing.Size(112, 13)
+        Me.LblLang2.Size = New System.Drawing.Size(51, 13)
         Me.LblLang2.TabIndex = 4
-        Me.LblLang2.Text = "Displayed Languages:"
+        Me.LblLang2.Text = "LblLang2"
         '
         'LblLang1
         '
         Me.LblLang1.AutoSize = True
         Me.LblLang1.Location = New System.Drawing.Point(10, 10)
         Me.LblLang1.Name = "LblLang1"
-        Me.LblLang1.Size = New System.Drawing.Size(109, 13)
+        Me.LblLang1.Size = New System.Drawing.Size(51, 13)
         Me.LblLang1.TabIndex = 0
-        Me.LblLang1.Text = "Available Languages:"
+        Me.LblLang1.Text = "LblLang1"
         '
         'BtnR
         '
@@ -113,20 +113,20 @@ Partial Class ConfigForm
         '
         'BtnOk
         '
-        Me.BtnOk.Location = New System.Drawing.Point(221, 150)
+        Me.BtnOk.Location = New System.Drawing.Point(221, 155)
         Me.BtnOk.Name = "BtnOk"
         Me.BtnOk.Size = New System.Drawing.Size(75, 23)
         Me.BtnOk.TabIndex = 12
-        Me.BtnOk.Text = "OK"
+        Me.BtnOk.Text = "BtnOk"
         Me.BtnOk.UseVisualStyleBackColor = True
         '
         'BtnReset
         '
-        Me.BtnReset.Location = New System.Drawing.Point(12, 150)
+        Me.BtnReset.Location = New System.Drawing.Point(12, 155)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(75, 23)
         Me.BtnReset.TabIndex = 10
-        Me.BtnReset.Text = "Reset"
+        Me.BtnReset.Text = "BtnReset"
         Me.BtnReset.UseVisualStyleBackColor = True
         '
         'LblUI
@@ -134,9 +134,9 @@ Partial Class ConfigForm
         Me.LblUI.AutoSize = True
         Me.LblUI.Location = New System.Drawing.Point(10, 95)
         Me.LblUI.Name = "LblUI"
-        Me.LblUI.Size = New System.Drawing.Size(103, 13)
+        Me.LblUI.Size = New System.Drawing.Size(32, 13)
         Me.LblUI.TabIndex = 6
-        Me.LblUI.Text = "Interface Language:"
+        Me.LblUI.Text = "LblUI"
         '
         'UILangCB
         '
@@ -150,24 +150,23 @@ Partial Class ConfigForm
         'LblApplySave
         '
         Me.LblApplySave.AutoSize = True
-        Me.LblApplySave.Location = New System.Drawing.Point(12, 176)
+        Me.LblApplySave.Location = New System.Drawing.Point(12, 181)
         Me.LblApplySave.MaximumSize = New System.Drawing.Size(288, 0)
         Me.LblApplySave.MinimumSize = New System.Drawing.Size(288, 0)
         Me.LblApplySave.Name = "LblApplySave"
-        Me.LblApplySave.Size = New System.Drawing.Size(288, 26)
+        Me.LblApplySave.Size = New System.Drawing.Size(288, 13)
         Me.LblApplySave.TabIndex = 13
-        Me.LblApplySave.Text = "You must also click Apply or Save in the MusicBee settings box to save any change" &
-    "s."
+        Me.LblApplySave.Text = "LblApplySave"
         Me.LblApplySave.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BtnCancel
         '
         Me.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.BtnCancel.Location = New System.Drawing.Point(140, 150)
+        Me.BtnCancel.Location = New System.Drawing.Point(140, 155)
         Me.BtnCancel.Name = "BtnCancel"
         Me.BtnCancel.Size = New System.Drawing.Size(75, 23)
         Me.BtnCancel.TabIndex = 11
-        Me.BtnCancel.Text = "Cancel"
+        Me.BtnCancel.Text = "BtnCancel"
         Me.BtnCancel.UseVisualStyleBackColor = True
         '
         'BlanksCB
@@ -185,9 +184,9 @@ Partial Class ConfigForm
         Me.LblBlanks.AutoSize = True
         Me.LblBlanks.Location = New System.Drawing.Point(174, 95)
         Me.LblBlanks.Name = "LblBlanks"
-        Me.LblBlanks.Size = New System.Drawing.Size(84, 13)
+        Me.LblBlanks.Size = New System.Drawing.Size(53, 13)
         Me.LblBlanks.TabIndex = 8
-        Me.LblBlanks.Text = "Separator Lines:"
+        Me.LblBlanks.Text = "LblBlanks"
         '
         'ConfigForm
         '
@@ -195,7 +194,7 @@ Partial Class ConfigForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.BtnCancel
-        Me.ClientSize = New System.Drawing.Size(308, 211)
+        Me.ClientSize = New System.Drawing.Size(308, 216)
         Me.Controls.Add(Me.LblBlanks)
         Me.Controls.Add(Me.BlanksCB)
         Me.Controls.Add(Me.BtnCancel)

@@ -82,7 +82,7 @@ Public Class LanguageClass
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblApplySave = "変更を保存するためには、MusicBeeの設定ダイアログで「適用」又は「保存」をクリックする必要があります。",
+                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblApplySave = "変更を保存するためには、MusicBeeの設定ダイアログで「適用」又は「保存」をクリックする必要があります。", .LblBlanks = "区切り行の数:",
                                                         .BtnReset = "リセット", .BtnOk = "OK", .BtnCancel = "キャンセル",
                                                         .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
                                                         .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所："}

@@ -28,6 +28,69 @@ Public Class Plugin
         Dim LangBox2Items() As String
         Dim UILanguage As Language
         Dim BlankCount As Byte
+
+        Function MakeString(Settings() As String) As String
+            Dim OutStr As New IO.StringWriter
+
+            For Each Setting In Settings
+                If Setting = "LangBox1Items" Then
+                    OutStr.Write("LangBox1Items:")
+                    For Each Lang In LangBox1Items
+                        If Lang = LangBox1Items.Last Then
+                            OutStr.Write(Lang)
+                        Else
+                            OutStr.Write(Lang & ",")
+                        End If
+                    Next
+                    OutStr.WriteLine()
+
+                ElseIf Setting = "LangBox2Items" Then
+                    OutStr.Write("LangBox2Items:")
+                    For Each Lang In LangBox2Items
+                        If Lang = LangBox2Items.Last Then
+                            OutStr.Write(Lang)
+                        Else
+                            OutStr.Write(Lang & ",")
+                        End If
+                    Next
+                    OutStr.WriteLine()
+
+                ElseIf Setting = "UILanguage" Then
+                    OutStr.WriteLine("UILanguage:" & UILanguage.Culture)
+
+                ElseIf Setting = "BlankCount" Then
+                    OutStr.WriteLine("BlankCount:" & BlankCount)
+                End If
+            Next
+            Return OutStr.ToString
+        End Function
+
+        Sub SetFromString(Settings As String)
+            Dim SettingsArray() As String = Settings.Split(vbNewLine)
+
+            For Each Setting In SettingsArray
+                If Setting.First = vbLf Then Setting = Setting.Remove(0, 1)
+
+                Dim Split() As String = Setting.Split(":")
+
+                If Split(0) = "LangBox1Items" Then
+                    LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+
+                ElseIf Split(0) = "LangBox2Items" Then
+                    LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+
+                ElseIf Split(0) = "UILanguage" Then
+                    For Each Lang As Language In LangList()
+                        If Lang.Culture = Split(1) Then
+                            UILanguage = Lang
+                        End If
+                    Next
+
+                ElseIf Split(0) = "BlankCount" Then
+                    BlankCount = Split(1)
+                End If
+            Next
+        End Sub
     End Structure
 
     Private mbApiInterface As New MusicBeeApiInterface
@@ -103,17 +166,12 @@ Public Class Plugin
             LangOrder = LangOrder & Lang & ","
         Next
 
-        WriteConfig(SettingsPath, "LangOrder.conf", LangOrder)
-        WriteConfig(SettingsPath, "UILang.conf", MySettings.UILanguage.Culture)
-        WriteConfig(SettingsPath, "BlankCount.conf", MySettings.BlankCount)
-    End Sub
 
-    Private Sub WriteConfig(Path As String, FileName As String, Data As String)
         Try
-            FileIO.FileSystem.WriteAllText(Path & FileName, Data, False)
+            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount"}), False)
         Catch ex As Exception
             Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
-            MsgBox(FileName & ":" & vbNewLine & Msg)
+            MsgBox("Settings.conf" & ":" & vbNewLine & Msg)
         End Try
     End Sub
 
@@ -126,9 +184,7 @@ Public Class Plugin
         UseTempSettings = False
         Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
         Try
-            FileIO.FileSystem.DeleteFile(SettingsPath & "LangOrder.conf")
-            FileIO.FileSystem.DeleteFile(SettingsPath & "UILang.conf")
-            FileIO.FileSystem.DeleteFile(SettingsPath & "BlankCount.conf")
+            FileIO.FileSystem.DeleteFile(SettingsPath & "Settings.conf")
             FileIO.FileSystem.DeleteDirectory(SettingsPath, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
         Catch ex As Exception
             Dim Msg1 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg1, LangEnUS.UninstallErrorMsg1)
@@ -146,39 +202,8 @@ Public Class Plugin
                 ' perform startup initialisation
                 Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
 
-                'Default settings. These are overwritten by the code underneath.
-                '(Now specified at creation of the object)
-                'MySettings.UILanguage = LangEnUS
-                'MySettings.LangBox1Items = {"Japanese"}
-                'MySettings.LangBox2Items = {"Romaji", "English"}
-                'MySettings.BlankCount = 6
-
-                If FileIO.FileSystem.FileExists(SettingsPath & "UILang.conf") Then
-                    Dim UILang As String = FileIO.FileSystem.ReadAllText(SettingsPath & "UILang.conf")
-                    For Each Lang As Language In LangList
-                        If UILang = Lang.Culture Then
-                            MySettings.UILanguage = Lang
-                        End If
-                    Next
-                End If
-
-                If FileIO.FileSystem.FileExists(SettingsPath & "LangOrder.conf") Then
-                    Dim Boxes() As String = FileIO.FileSystem.ReadAllText(SettingsPath & "LangOrder.conf").Split(";".ToCharArray, 2)
-                    Dim Box1() As String = Boxes(0).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
-                    Dim Box2() As String = Boxes(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
-
-                    ReDim MySettings.LangBox1Items(Box1.Length - 1)
-                    ReDim MySettings.LangBox2Items(Box2.Length - 1)
-                    For i = 0 To Box1.Length - 1
-                        MySettings.LangBox1Items(i) = Box1(i)
-                    Next
-                    For i = 0 To Box2.Length - 1
-                        MySettings.LangBox2Items(i) = Box2(i)
-                    Next
-                End If
-
-                If FileIO.FileSystem.FileExists(SettingsPath & "BlankCount.conf") Then
-                    MySettings.BlankCount = FileIO.FileSystem.ReadAllText(SettingsPath & "BlankCount.conf")
+                If FileIO.FileSystem.FileExists(SettingsPath & "Settings.conf") Then
+                    MySettings.SetFromString(FileIO.FileSystem.ReadAllText(SettingsPath & "Settings.conf"))
                 End If
         End Select
     End Sub
