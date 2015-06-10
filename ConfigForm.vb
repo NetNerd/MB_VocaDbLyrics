@@ -20,6 +20,7 @@
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports MusicBeePlugin.LanguageClass
+Imports MusicBeePlugin.SettingsClass
 
 Public Class ConfigForm
     Private LangList() As Language = LanguageClass.LangList()
@@ -146,6 +147,7 @@ Public Class ConfigForm
 
             TempSettings.Settings.BlankCount = BlanksCB.SelectedItem
         End If
+        TempSettings.LastSeen = Now
         Me.Dispose()
     End Sub
 
@@ -180,8 +182,4 @@ Public Class ConfigForm
         BtnOk.Text = FallbackHelper(UILanguage.BtnOk, LangEnUS.BtnOk)
         BtnCancel.Text = FallbackHelper(UILanguage.BtnCancel, LangEnUS.BtnCancel)
     End Sub
-End Class
-
-Public Class TempSettings
-    Public Shared Settings As Plugin.SettingsCollection
 End Class

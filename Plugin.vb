@@ -23,85 +23,10 @@ Imports System.Windows.Forms
 Imports MusicBeePlugin.LanguageClass
 
 Public Class Plugin
-    Public Structure SettingsCollection
-        Dim LangBox1Items() As String
-        Dim LangBox2Items() As String
-        Dim UILanguage As Language
-        Dim BlankCount As Byte
-
-        Function MakeString(Settings() As String) As String
-            Dim OutStr As New IO.StringWriter
-
-            For Each Setting In Settings
-                Select Case Setting
-                    Case "LangBox1Items"
-                        OutStr.Write("LangBox1Items:")
-                        For Each Lang In LangBox1Items
-                            If Lang = LangBox1Items.Last Then
-                                OutStr.Write(Lang)
-                            Else
-                                OutStr.Write(Lang & ",")
-                            End If
-                        Next
-                        OutStr.WriteLine()
-
-                    Case "LangBox2Items"
-                        OutStr.Write("LangBox2Items:")
-                        For Each Lang In LangBox2Items
-                            If Lang = LangBox2Items.Last Then
-                                OutStr.Write(Lang)
-                            Else
-                                OutStr.Write(Lang & ",")
-                            End If
-                        Next
-                        OutStr.WriteLine()
-
-                    Case "UILanguage"
-                        OutStr.WriteLine("UILanguage:" & UILanguage.Culture)
-
-                    Case "BlankCount"
-                        OutStr.WriteLine("BlankCount:" & BlankCount)
-
-                End Select
-            Next
-            Return OutStr.ToString
-        End Function
-
-        Sub SetFromString(Settings As String)
-            Dim SettingsArray() As String = Settings.Split(vbNewLine)
-
-            For Each Setting In SettingsArray
-                If Setting.First = vbLf Then Setting = Setting.Remove(0, 1)
-
-                Dim Split() As String = Setting.Split(":")
-
-                Select Case Split(0)
-                    Case "LangBox1Items"
-                        LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
-
-                    Case "LangBox2Items"
-                        LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
-
-                    Case "UILanguage"
-                        For Each Lang As Language In LangList()
-                            If Lang.Culture = Split(1) Then
-                                UILanguage = Lang
-                            End If
-                        Next
-
-                    Case "BlankCount"
-                        BlankCount = Split(1)
-
-                End Select
-            Next
-        End Sub
-    End Structure
-
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5}
-    Private UseTempSettings As Boolean = False
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5}
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
         'I'm not quite sure exactly what this does.
@@ -134,8 +59,7 @@ Public Class Plugin
         ' panelHandle will only be set if you set about.ConfigurationPanelHeight to a non-zero value
         ' keep in mind the panel width is scaled according to the font the user has selected
         ' if about.ConfigurationPanelHeight is set to 0, you can display your own popup window
-        If UseTempSettings = False Then TempSettings.Settings = MySettings
-        UseTempSettings = True
+        If SettingsClass.TempSettings.LastSeen < Now - New TimeSpan(0, 2, 30) Then SettingsClass.TempSettings.Settings = MySettings
         Dim ConfigForm As New ConfigForm()
         ConfigForm.Show()
         Return True
@@ -144,8 +68,7 @@ Public Class Plugin
     ' called by MusicBee when the user clicks Apply or Save in the MusicBee Preferences screen.
     ' its up to you to figure out whether anything has changed and needs updating
     Public Sub SaveSettings()
-        If UseTempSettings = True Then MySettings = TempSettings.Settings
-        UseTempSettings = False
+        If SettingsClass.TempSettings.LastSeen > Now - New TimeSpan(0, 2, 30) Then MySettings = SettingsClass.TempSettings.Settings
 
         ' save any persistent settings in a sub-folder of this path
         Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
@@ -185,7 +108,6 @@ Public Class Plugin
 
     ' uninstall this plugin - clean up any persisted files
     Public Sub Uninstall()
-        UseTempSettings = False
         Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
         Try
             FileIO.FileSystem.DeleteFile(SettingsPath & "Settings.conf")
