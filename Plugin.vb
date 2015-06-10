@@ -33,34 +33,36 @@ Public Class Plugin
             Dim OutStr As New IO.StringWriter
 
             For Each Setting In Settings
-                If Setting = "LangBox1Items" Then
-                    OutStr.Write("LangBox1Items:")
-                    For Each Lang In LangBox1Items
-                        If Lang = LangBox1Items.Last Then
-                            OutStr.Write(Lang)
-                        Else
-                            OutStr.Write(Lang & ",")
-                        End If
-                    Next
-                    OutStr.WriteLine()
+                Select Case Setting
+                    Case "LangBox1Items"
+                        OutStr.Write("LangBox1Items:")
+                        For Each Lang In LangBox1Items
+                            If Lang = LangBox1Items.Last Then
+                                OutStr.Write(Lang)
+                            Else
+                                OutStr.Write(Lang & ",")
+                            End If
+                        Next
+                        OutStr.WriteLine()
 
-                ElseIf Setting = "LangBox2Items" Then
-                    OutStr.Write("LangBox2Items:")
-                    For Each Lang In LangBox2Items
-                        If Lang = LangBox2Items.Last Then
-                            OutStr.Write(Lang)
-                        Else
-                            OutStr.Write(Lang & ",")
-                        End If
-                    Next
-                    OutStr.WriteLine()
+                    Case "LangBox2Items"
+                        OutStr.Write("LangBox2Items:")
+                        For Each Lang In LangBox2Items
+                            If Lang = LangBox2Items.Last Then
+                                OutStr.Write(Lang)
+                            Else
+                                OutStr.Write(Lang & ",")
+                            End If
+                        Next
+                        OutStr.WriteLine()
 
-                ElseIf Setting = "UILanguage" Then
-                    OutStr.WriteLine("UILanguage:" & UILanguage.Culture)
+                    Case "UILanguage"
+                        OutStr.WriteLine("UILanguage:" & UILanguage.Culture)
 
-                ElseIf Setting = "BlankCount" Then
-                    OutStr.WriteLine("BlankCount:" & BlankCount)
-                End If
+                    Case "BlankCount"
+                        OutStr.WriteLine("BlankCount:" & BlankCount)
+
+                End Select
             Next
             Return OutStr.ToString
         End Function
@@ -73,22 +75,24 @@ Public Class Plugin
 
                 Dim Split() As String = Setting.Split(":")
 
-                If Split(0) = "LangBox1Items" Then
-                    LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+                Select Case Split(0)
+                    Case "LangBox1Items"
+                        LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                ElseIf Split(0) = "LangBox2Items" Then
-                    LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+                    Case "LangBox2Items"
+                        LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                ElseIf Split(0) = "UILanguage" Then
-                    For Each Lang As Language In LangList()
-                        If Lang.Culture = Split(1) Then
-                            UILanguage = Lang
-                        End If
-                    Next
+                    Case "UILanguage"
+                        For Each Lang As Language In LangList()
+                            If Lang.Culture = Split(1) Then
+                                UILanguage = Lang
+                            End If
+                        Next
 
-                ElseIf Split(0) = "BlankCount" Then
-                    BlankCount = Split(1)
-                End If
+                    Case "BlankCount"
+                        BlankCount = Split(1)
+
+                End Select
             Next
         End Sub
     End Structure
