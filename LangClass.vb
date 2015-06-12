@@ -74,16 +74,14 @@ Public Class LanguageClass
     End Structure
 
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
-                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "Interface Language:", .LblApplySave = "You must also click Apply or Save on the MusicBee settings page to save any changes.", .LblBlanks = "Separator Lines:",
-                                                          .BtnReset = "Reset", .BtnOk = "OK", .BtnCancel = "Cancel",
+                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
                                                           .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:"}
 
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblApplySave = "変更を保存するためには、MusicBeeの設定ダイアログで「適用」又は「保存」をクリックする必要があります。", .LblBlanks = "区切り行の数:",
-                                                        .BtnReset = "リセット", .BtnOk = "OK", .BtnCancel = "キャンセル",
+                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:",
                                                         .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
                                                         .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所："}
     'Public Shared ReadOnly LangList() As Language = {LangEnUS, LangEnGB, LangJa}

@@ -65,13 +65,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigPanel.vb" />
     <Compile Include="Plugin.vb" />
-    <Compile Include="ConfigForm.Designer.vb">
-      <DependentUpon>ConfigForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LangClass.vb" />
     <Compile Include="MusicBeeInterface.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -116,9 +111,6 @@
       <Project>{b4946a01-1651-4a00-a503-7191dff831f1}</Project>
       <Name>VocaDbLyricsLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="PostBuildMacros">
