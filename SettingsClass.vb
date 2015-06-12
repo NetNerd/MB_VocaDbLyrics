@@ -72,9 +72,4 @@
             Next
         End Sub
     End Structure
-
-    Public Class TempSettings
-        Public Shared Settings As SettingsCollection
-        Public Shared LastSeen As DateTime = New DateTime(0)
-    End Class
 End Class
