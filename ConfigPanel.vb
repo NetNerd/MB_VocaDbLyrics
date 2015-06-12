@@ -19,7 +19,8 @@ Public Class ConfigPanel
     Private Shared LblBlanks As Label
     Private Shared WithEvents BlanksCB As ComboBox
 
-    Private Shared Border As Panel
+    Private Shared Border1 As Panel
+    Private Shared Border2 As Panel
 
 
     Private Shared MySettings As New SettingsCollection
@@ -41,6 +42,9 @@ Public Class ConfigPanel
         LblBlanks = New Label With {.Bounds = New Rectangle(10, 119, 94, 14)}
         BlanksCB = New ComboBox With {.Bounds = New Rectangle(106, 114, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
         BlanksCB.Items.AddRange({1, 2, 3, 4, 5, 6, 7, 8, 9})
+
+        Border1 = New Panel With {.Bounds = New Rectangle(2, 1, 308, 145), .BackColor = Color.FromArgb(224, 224, 224)}
+        Border2 = New Panel With {.Bounds = New Rectangle(3, 2, 306, 143)}
     End Sub
 
     Shared Sub SetupControls(ByVal Settings As SettingsCollection)
@@ -67,7 +71,7 @@ Public Class ConfigPanel
     End Sub
 
     Shared Function GetControls() As Control()
-        Return {LblLang1, LangBox1, LblLang2, LangBox2, BtnL, BtnR, LblUI, UILangCB, LblBlanks, BlanksCB, Border}
+        Return {LblLang1, LangBox1, LblLang2, LangBox2, BtnL, BtnR, LblUI, UILangCB, LblBlanks, BlanksCB, Border2, Border1}
     End Function
 
     Shared Function GetSettings() As SettingsCollection
