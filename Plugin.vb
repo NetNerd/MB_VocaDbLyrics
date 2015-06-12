@@ -49,28 +49,26 @@ Public Class Plugin
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
-        about.ConfigurationPanelHeight = 140
+        about.ConfigurationPanelHeight = 0
         Return about
     End Function
 
     Public Function Configure(ByVal panelHandle As IntPtr) As Boolean
+        ' save any persistent settings in a sub-folder of this path
+        'SettingsPath = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
         ' panelHandle will only be set if you set about.ConfigurationPanelHeight to a non-zero value
         ' keep in mind the panel width is scaled according to the font the user has selected
         ' if about.ConfigurationPanelHeight is set to 0, you can display your own popup window
-        If panelHandle <> IntPtr.Zero Then
-            Dim mbPanel As Panel = DirectCast(Panel.FromHandle(panelHandle), Panel)
-            ConfigPanel.SetupControls(MySettings)
-            mbPanel.Controls.AddRange(ConfigPanel.GetControls)
-        End If
-
+        If SettingsClass.TempSettings.LastSeen < Now - New TimeSpan(0, 2, 30) Then SettingsClass.TempSettings.Settings = MySettings
+        Dim ConfigForm As New ConfigForm()
+        ConfigForm.Show()
         Return True
     End Function
 
     ' called by MusicBee when the user clicks Apply or Save in the MusicBee Preferences screen.
     ' its up to you to figure out whether anything has changed and needs updating
     Public Sub SaveSettings()
-        Dim NewSettings As SettingsClass.SettingsCollection = ConfigPanel.GetSettings
-        If Not NewSettings.BlankCount = Nothing Then MySettings = NewSettings
+        If SettingsClass.TempSettings.LastSeen > Now - New TimeSpan(0, 2, 30) Then MySettings = SettingsClass.TempSettings.Settings
 
         ' save any persistent settings in a sub-folder of this path
         Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
