@@ -34,14 +34,8 @@ Public Class LanguageClass
         Dim LblLang2 As String
         'LblUI is for the UI language selection box.
         Dim LblUI As String
-        'LblApplySave is the note about saving settings at the bottom.
-        Dim LblApplySave As String
         'LblBlanks is for the separator lines count/
         Dim LblBlanks As String
-
-        Dim BtnReset As String
-        Dim BtnOk As String
-        Dim BtnCancel As String
 
         Dim SaveErrorMsg As String
         Dim FolderCreateErrorMsg As String
