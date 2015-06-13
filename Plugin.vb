@@ -44,7 +44,7 @@ Public Class Plugin
         about.TargetApplication = "VocaDB"
         about.Type = PluginType.LyricsRetrieval
         about.VersionMajor = 0
-        about.VersionMinor = 1
+        about.VersionMinor = 2
         about.Revision = 0
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
