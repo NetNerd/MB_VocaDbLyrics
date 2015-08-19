@@ -50,7 +50,7 @@ Public Class Plugin
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
-        about.ConfigurationPanelHeight = 146
+        about.ConfigurationPanelHeight = 161
         Return about
     End Function
 
