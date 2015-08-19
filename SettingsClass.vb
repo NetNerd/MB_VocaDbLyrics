@@ -54,30 +54,30 @@
                 If Setting.First = vbLf Then Setting = Setting.Remove(0, 1)
 
                 Dim Split() As String = Setting.Split(":")
-                
-                If Split().Length < 2 OrElse Split(0).IsNullOrEmpty() Or Split(1).IsNullOrEmpty() Then Next
-                
-                Select Case Split(0)
-                    Case "LangBox1Items"
-                        LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                    Case "LangBox2Items"
-                        LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+                If Split.Length > 1 AndAlso String.IsNullOrEmpty(Split(0)) = False And String.IsNullOrEmpty(Split(1)) = False Then
+                    Select Case Split(0)
+                        Case "LangBox1Items"
+                            LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                    Case "UILanguage"
-                        For Each Lang As LanguageClass.Language In LanguageClass.LangList()
-                            If Lang.Culture = Split(1) Then
-                                UILanguage = Lang
-                            End If
-                        Next
+                        Case "LangBox2Items"
+                            LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                    Case "BlankCount"
-                        BlankCount = Split(1)
-                        
-                    Case "ForceArtistMatch"
-                        Boolean.TryParse(Split(1), ForceArtistMatch)
+                        Case "UILanguage"
+                            For Each Lang As LanguageClass.Language In LanguageClass.LangList()
+                                If Lang.Culture = Split(1) Then
+                                    UILanguage = Lang
+                                End If
+                            Next
 
-                End Select
+                        Case "BlankCount"
+                            BlankCount = Split(1)
+
+                        Case "ForceArtistMatch"
+                            Boolean.TryParse(Split(1), ForceArtistMatch)
+
+                    End Select
+                End If
             Next
         End Sub
     End Structure
