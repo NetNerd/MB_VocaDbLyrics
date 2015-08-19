@@ -22,7 +22,7 @@ Imports System.Drawing
 Imports System.Windows.Forms
 Imports MusicBeePlugin.LanguageClass
 
-Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy}
+Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True}
 
 Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
@@ -87,19 +87,8 @@ Public Class Plugin
         End If
 
 
-        Dim LangOrder As String = ""
-
-        For Each Lang In MySettings.LangBox1Items
-            LangOrder = LangOrder & Lang & ","
-        Next
-        LangOrder = LangOrder & ";"
-        For Each Lang In MySettings.LangBox2Items
-            LangOrder = LangOrder & Lang & ","
-        Next
-
-
         Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount"}), False)
+            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch"}), False)
         Catch ex As Exception
             Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
             MsgBox("Settings.conf" & ":" & vbNewLine & Msg)
@@ -160,6 +149,10 @@ Public Class Plugin
             End If
         Catch
         End Try
+        
+        LyricsLib.Proxy = WebProxy
+        
+        LyricsLib.ForceArtistMatch = MySettings.ForceArtistMatch
 
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
