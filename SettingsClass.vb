@@ -4,6 +4,7 @@
         Dim LangBox2Items() As String
         Dim UILanguage As LanguageClass.Language
         Dim BlankCount As Byte
+        Dim ForceArtistMatch As Boolean
 
         Function MakeString(Settings() As String) As String
             Dim OutStr As New IO.StringWriter
@@ -37,6 +38,9 @@
 
                     Case "BlankCount"
                         OutStr.WriteLine("BlankCount:" & BlankCount)
+                        
+                    Case "ForceArtistMatch"
+                        OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
 
                 End Select
             Next
@@ -51,24 +55,29 @@
 
                 Dim Split() As String = Setting.Split(":")
 
-                Select Case Split(0)
-                    Case "LangBox1Items"
-                        LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+                If Split.Length > 1 AndAlso String.IsNullOrEmpty(Split(0)) = False And String.IsNullOrEmpty(Split(1)) = False Then
+                    Select Case Split(0)
+                        Case "LangBox1Items"
+                            LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                    Case "LangBox2Items"
-                        LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
+                        Case "LangBox2Items"
+                            LangBox2Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
 
-                    Case "UILanguage"
-                        For Each Lang As LanguageClass.Language In LanguageClass.LangList()
-                            If Lang.Culture = Split(1) Then
-                                UILanguage = Lang
-                            End If
-                        Next
+                        Case "UILanguage"
+                            For Each Lang As LanguageClass.Language In LanguageClass.LangList()
+                                If Lang.Culture = Split(1) Then
+                                    UILanguage = Lang
+                                End If
+                            Next
 
-                    Case "BlankCount"
-                        BlankCount = Split(1)
+                        Case "BlankCount"
+                            BlankCount = Split(1)
 
-                End Select
+                        Case "ForceArtistMatch"
+                            Boolean.TryParse(Split(1), ForceArtistMatch)
+
+                    End Select
+                End If
             Next
         End Sub
     End Structure

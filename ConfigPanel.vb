@@ -22,6 +22,9 @@ Public Class ConfigPanel
     Private Shared LblForceArtist As Label
     Private Shared WithEvents ForceArtistCB As ComboBox
 
+    Private Shared LblForceArtist As Label
+    Private Shared WithEvents ForceArtistCB As CheckBox
+
     Private Shared Border1 As Panel
     Private Shared Border2 As Panel
 
@@ -46,8 +49,11 @@ Public Class ConfigPanel
         BlanksCB = New ComboBox With {.Bounds = New Rectangle(106, 114, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
         BlanksCB.Items.AddRange({1, 2, 3, 4, 5, 6, 7, 8, 9})
 
-        Border1 = New Panel With {.Bounds = New Rectangle(2, 1, 308, 145), .BackColor = Color.FromArgb(224, 224, 224)}
-        Border2 = New Panel With {.Bounds = New Rectangle(3, 2, 306, 143)}
+        LblForceArtist = New Label With {.Bounds = New Rectangle(27, 144, 199, 14)}
+        ForceArtistCB = New CheckBox With {.Bounds = New Rectangle(10, 145, 13, 13)}
+
+        Border1 = New Panel With {.Bounds = New Rectangle(2, 1, 308, 170), .BackColor = Color.FromArgb(224, 224, 224)}
+        Border2 = New Panel With {.Bounds = New Rectangle(3, 2, 306, 168)}
     End Sub
 
     Shared Sub SetupControls(ByVal Settings As SettingsCollection)
@@ -62,6 +68,8 @@ Public Class ConfigPanel
         UILangCB.SelectedItem = MySettings.UILanguage.Name
 
         If MySettings.BlankCount > 0 And MySettings.BlankCount < 10 Then BlanksCB.SelectedIndex = MySettings.BlankCount - 1
+        
+        ForceArtistCB.Checked = MySettings.ForceArtistMatch
 
         For Each Lang As String In MySettings.LangBox1Items
             LangBox1.Items.Add(MySettings.UILanguage.LocalizeFromString(Lang))
@@ -74,7 +82,7 @@ Public Class ConfigPanel
     End Sub
 
     Shared Function GetControls() As Control()
-        Return {LblLang1, LangBox1, LblLang2, LangBox2, BtnL, BtnR, LblUI, UILangCB, LblBlanks, BlanksCB, Border2, Border1}
+        Return {LblLang1, LangBox1, LblLang2, LangBox2, BtnL, BtnR, LblUI, UILangCB, LblBlanks, BlanksCB, LblForceArtist, ForceArtistCB, Border2, Border1}
     End Function
 
     Shared Function GetSettings() As SettingsCollection
@@ -97,6 +105,7 @@ Public Class ConfigPanel
         LblLang2.Text = FallbackHelper(MySettings.UILanguage.LblLang2, LangEnUS.LblLang2)
         LblUI.Text = FallbackHelper(MySettings.UILanguage.LblUI, LangEnUS.LblUI)
         LblBlanks.Text = FallbackHelper(MySettings.UILanguage.LblBlanks, LangEnUS.LblBlanks)
+        LblForceArtist.Text = FallbackHelper(MySettings.UILanguage.LblForceArtist, LangEnUS.LblForceArtist)
     End Sub
 
 
@@ -124,6 +133,10 @@ Public Class ConfigPanel
 
     Private Shared Sub BlanksCB_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles BlanksCB.SelectionChangeCommitted
         MySettings.BlankCount = BlanksCB.SelectedItem
+    End Sub
+
+    Private Shared Sub ForceArtistCB_CheckedChanged(sender As Object, e As EventArgs) Handles ForceArtistCB.CheckedChanged
+        MySettings.ForceArtistMatch = ForceArtistCB.Checked
     End Sub
 
     'Drag/drop on the language boxes

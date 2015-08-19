@@ -34,8 +34,10 @@ Public Class LanguageClass
         Dim LblLang2 As String
         'LblUI is for the UI language selection box.
         Dim LblUI As String
-        'LblBlanks is for the separator lines count/
+        'LblBlanks is for the separator lines count.
         Dim LblBlanks As String
+        'LblForceArtist is for the force artist match checkbox.
+        Dim LblForceArtist As String
 
         Dim SaveErrorMsg As String
         Dim FolderCreateErrorMsg As String
@@ -68,14 +70,14 @@ Public Class LanguageClass
     End Structure
 
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
-                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:",
+                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:", .LblForceArtist = "Force Artist Matching",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
                                                           .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:"}
 
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:",
+                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:", .LblForceArtist = "アーチスト合うするの保する",
                                                         .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
                                                         .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所："}
     'Public Shared ReadOnly LangList() As Language = {LangEnUS, LangEnGB, LangJa}

@@ -22,11 +22,12 @@ Imports System.Drawing
 Imports System.Windows.Forms
 Imports MusicBeePlugin.LanguageClass
 
+
 Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False}
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
         'I'm not quite sure exactly what this does.
@@ -39,17 +40,17 @@ Public Class Plugin
 
         about.PluginInfoVersion = 0.1
         about.Name = "MB_VocaDbLyrics"
-        about.Description = "A lyrics provider for VocaDB."
+        about.Description = "A lyrics provider for VocaDB.     (v0.3)"
         about.Author = "NetNerd"
         about.TargetApplication = "VocaDB"
         about.Type = PluginType.LyricsRetrieval
         about.VersionMajor = 0
-        about.VersionMinor = 2
+        about.VersionMinor = 3
         about.Revision = 0
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
-        about.ConfigurationPanelHeight = 146
+        about.ConfigurationPanelHeight = 171
         Return about
     End Function
 
@@ -85,19 +86,8 @@ Public Class Plugin
         End If
 
 
-        Dim LangOrder As String = ""
-
-        For Each Lang In MySettings.LangBox1Items
-            LangOrder = LangOrder & Lang & ","
-        Next
-        LangOrder = LangOrder & ";"
-        For Each Lang In MySettings.LangBox2Items
-            LangOrder = LangOrder & Lang & ","
-        Next
-
-
         Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount"}), False)
+            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch"}), False)
         Catch ex As Exception
             Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
             MsgBox("Settings.conf" & ":" & vbNewLine & Msg)
@@ -158,8 +148,8 @@ Public Class Plugin
             End If
         Catch
         End Try
-
-        Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy}
+        
+        Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch}
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
 
