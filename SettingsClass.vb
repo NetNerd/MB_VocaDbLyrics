@@ -4,6 +4,7 @@
         Dim LangBox2Items() As String
         Dim UILanguage As LanguageClass.Language
         Dim BlankCount As Byte
+        Dim ForceArtistMatch As Boolean
 
         Function MakeString(Settings() As String) As String
             Dim OutStr As New IO.StringWriter
@@ -37,6 +38,9 @@
 
                     Case "BlankCount"
                         OutStr.WriteLine("BlankCount:" & BlankCount)
+                        
+                    Case "ForceArtistMatch"
+                        OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
 
                 End Select
             Next
@@ -50,7 +54,9 @@
                 If Setting.First = vbLf Then Setting = Setting.Remove(0, 1)
 
                 Dim Split() As String = Setting.Split(":")
-
+                
+                If Split().Length < 2 OrElse Split(0).IsNullOrEmpty() Or Split(1).IsNullOrEmpty() Then Next
+                
                 Select Case Split(0)
                     Case "LangBox1Items"
                         LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
@@ -67,6 +73,9 @@
 
                     Case "BlankCount"
                         BlankCount = Split(1)
+                        
+                    Case "ForceArtistMatch"
+                        ForceArtistMatch = Boolean.Parse(Split(1))
 
                 End Select
             Next
