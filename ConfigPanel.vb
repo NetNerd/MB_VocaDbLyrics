@@ -22,7 +22,7 @@ Public Class ConfigPanel
     Private Shared LblForceArtist As Label
     Private Shared WithEvents ForceArtistCB As ComboBox
 
-    Private Shared LblForceArtist As Label
+    Private Shared WithEvents LblForceArtist As Label
     Private Shared WithEvents ForceArtistCB As CheckBox
 
     Private Shared Border1 As Panel
@@ -137,6 +137,10 @@ Public Class ConfigPanel
 
     Private Shared Sub ForceArtistCB_CheckedChanged(sender As Object, e As EventArgs) Handles ForceArtistCB.CheckedChanged
         MySettings.ForceArtistMatch = ForceArtistCB.Checked
+    End Sub
+
+    Private Shared Sub LblForceArtist_Click(sender As Object, e As EventArgs) Handles LblForceArtist.Click
+        ForceArtistCB.Checked = Not ForceArtistCB.Checked
     End Sub
 
     'Drag/drop on the language boxes
