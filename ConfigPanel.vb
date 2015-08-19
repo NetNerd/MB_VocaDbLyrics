@@ -18,6 +18,9 @@ Public Class ConfigPanel
 
     Private Shared LblBlanks As Label
     Private Shared WithEvents BlanksCB As ComboBox
+    
+    Private Shared LblForceArtist As Label
+    Private Shared WithEvents ForceArtistCB As ComboBox
 
     Private Shared Border1 As Panel
     Private Shared Border2 As Panel
