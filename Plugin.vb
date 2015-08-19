@@ -22,7 +22,6 @@ Imports System.Drawing
 Imports System.Windows.Forms
 Imports MusicBeePlugin.LanguageClass
 
-Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True}
 
 Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
@@ -150,10 +149,7 @@ Public Class Plugin
         Catch
         End Try
         
-        LyricsLib.Proxy = WebProxy
-        
-        LyricsLib.ForceArtistMatch = MySettings.ForceArtistMatch
-
+        Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch}
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
 
