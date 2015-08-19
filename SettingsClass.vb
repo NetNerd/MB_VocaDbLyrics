@@ -75,7 +75,7 @@
                         BlankCount = Split(1)
                         
                     Case "ForceArtistMatch"
-                        ForceArtistMatch = Boolean.Parse(Split(1))
+                        Boolean.TryParse(Split(1), ForceArtistMatch)
 
                 End Select
             Next
