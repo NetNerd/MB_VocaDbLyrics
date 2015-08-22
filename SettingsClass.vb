@@ -5,6 +5,7 @@
         Dim UILanguage As LanguageClass.Language
         Dim BlankCount As Byte
         Dim ForceArtistMatch As Boolean
+        Dim UpdateChecking As Boolean
 
         Function MakeString(Settings() As String) As String
             Dim OutStr As New IO.StringWriter
@@ -42,6 +43,9 @@
                     Case "ForceArtistMatch"
                         OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
 
+                    Case "UpdateChecking"
+                        OutStr.WriteLine("UpdateChecking:" & UpdateChecking.ToString())
+
                 End Select
             Next
             Return OutStr.ToString
@@ -74,7 +78,10 @@
                             BlankCount = Split(1)
 
                         Case "ForceArtistMatch"
-                            Boolean.TryParse(Split(1), ForceArtistMatch)
+                            ForceArtistMatch = Boolean.Parse(Split(1))
+
+                        Case "UpdateChecking"
+                            UpdateChecking = Boolean.Parse(Split(1))
 
                     End Select
                 End If

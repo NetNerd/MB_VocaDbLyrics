@@ -27,7 +27,7 @@ Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UpdateChecking = True}
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
         'I'm not quite sure exactly what this does.
@@ -38,15 +38,15 @@ Public Class Plugin
             CopyMemory(mbApiInterface, apiInterfacePtr, 456)
         End If
 
-        about.PluginInfoVersion = 0.1
         about.Name = "MB_VocaDbLyrics"
-        about.Description = "A lyrics provider for VocaDB.     (v0.3)"
-        about.Author = "NetNerd"
-        about.TargetApplication = "VocaDB"
-        about.Type = PluginType.LyricsRetrieval
         about.VersionMajor = 0
         about.VersionMinor = 3
         about.Revision = 0
+        about.PluginInfoVersion = about.VersionMinor
+        about.Description = "A lyrics provider for VocaDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
+        about.Author = "NetNerd"
+        about.TargetApplication = "VocaDB"
+        about.Type = PluginType.LyricsRetrieval
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
@@ -87,7 +87,7 @@ Public Class Plugin
 
 
         Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch"}), False)
+            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch", "UpdateChecking"}), False)
         Catch ex As Exception
             Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
             MsgBox("Settings.conf" & ":" & vbNewLine & Msg)
@@ -121,7 +121,10 @@ Public Class Plugin
                 Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
 
                 If FileIO.FileSystem.FileExists(SettingsPath & "Settings.conf") Then
-                    MySettings.SetFromString(FileIO.FileSystem.ReadAllText(SettingsPath & "Settings.conf"))
+                    Try
+                        MySettings.SetFromString(FileIO.FileSystem.ReadAllText(SettingsPath & "Settings.conf"))
+                    Catch
+                    End Try
                 End If
         End Select
     End Sub
@@ -148,7 +151,14 @@ Public Class Plugin
             End If
         Catch
         End Try
-        
+
+        If MySettings.UpdateChecking Then
+            If Updates.LastCheckTime(mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\") < DateTime.Now.AddDays(-1) Then
+                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, MySettings.UILanguage)
+                Updates.SaveLastUpdate(mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\")
+            End If
+        End If
+
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch}
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter

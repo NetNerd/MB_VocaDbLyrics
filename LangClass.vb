@@ -43,6 +43,7 @@ Public Class LanguageClass
         Dim FolderCreateErrorMsg As String
         Dim UninstallErrorMsg1 As String
         Dim UninstallErrorMsg2 As String
+        Dim UpdateMsg As String
 
         Function LocalizeFromString(Lang As String)
             Select Case Lang
@@ -72,14 +73,16 @@ Public Class LanguageClass
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
                                                           .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:", .LblForceArtist = "Force Artist Matching",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
-                                                          .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:"}
+                                                          .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:",
+                                                          .UpdateMsg = "A new version of the plugin is available." & vbNewLine & "Would you like to visit the release page to download it?"}
 
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "利用可能言語：", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:", .LblForceArtist = "アーチスト合うするの保する",
+                                                        .LblLang1 = "利用可能言語： ", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:", .LblForceArtist = "アーチスト合うするの保する",
                                                         .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
-                                                        .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所："}
+                                                        .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所：",
+                                                        .UpdateMsg = "プラグインの新しいバージョンが利用可能。" & vbNewLine & "ダウンロードするにはリリースページに行きたいか？"}
     'Public Shared ReadOnly LangList() As Language = {LangEnUS, LangEnGB, LangJa}
     Public Shared Function LangList() As Language()
         Return {LangEnUS, LangEnGB, LangJa}
