@@ -38,12 +38,17 @@ Public Class LanguageClass
         Dim LblBlanks As String
         'LblForceArtist is for the force artist match checkbox.
         Dim LblForceArtist As String
+        'LblUpdateCheck is for the auto update checking checkbox.
+        Dim LblUpdateCheck As String
 
         Dim SaveErrorMsg As String
         Dim FolderCreateErrorMsg As String
         Dim UninstallErrorMsg1 As String
         Dim UninstallErrorMsg2 As String
         Dim UpdateMsg As String
+
+        Dim CurVer As String
+        Dim NewVer As String
 
         Function LocalizeFromString(Lang As String)
             Select Case Lang
@@ -70,25 +75,28 @@ Public Class LanguageClass
         End Function
     End Structure
 
+    'LangEnUS needs to be maintained
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
-                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:", .LblForceArtist = "Force Artist Matching",
+                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:", .LblForceArtist = "Force Artist Matching", .LblUpdateCheck = "Automatically Check for Updates",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
                                                           .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:",
-                                                          .UpdateMsg = "A new version of the plugin is available." & vbNewLine & "Would you like to visit the release page to download it?"}
+                                                          .UpdateMsg = "A new version of the plugin is available." & vbNewLine & "Would you like to visit the release page to download it?", .CurVer = "Current Version: ", .NewVer = "New Version: "}
 
     Public Shared ReadOnly LangEnGB As New Language With {.Japanese = "Non-English", .Romaji = "Romanised", .English = "English", .Culture = "en-GB", .Name = "English (GB)"}
 
     Public Shared ReadOnly LangJa As New Language With {.Japanese = "非英語", .Romaji = "ローマ字", .English = "英語", .Culture = "ja-JP", .Name = "日本語",
-                                                        .LblLang1 = "利用可能言語： ", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:", .LblForceArtist = "アーチスト合うするの保する",
+                                                        .LblLang1 = "利用可能言語： ", .LblLang2 = "表示言語：", .LblUI = "UI言語：", .LblBlanks = "区切り行の数:", .LblForceArtist = "アーチスト合うするの保する", .LblUpdateCheck = "新しいバージョンを自動チェックする", '"新しいバージョンの自動チェック",
                                                         .SaveErrorMsg = "ファイルを保存できませんでした。", .FolderCreateErrorMsg = "新規フォルダを書きませんでした。",
                                                         .UninstallErrorMsg1 = "MB_VocaDbLyricsは設定ファイルを削除できませんでした。", .UninstallErrorMsg2 = "残っているファイルの場所：",
-                                                        .UpdateMsg = "プラグインの新しいバージョンが利用可能。" & vbNewLine & "ダウンロードするにはリリースページに行きたいか？"}
+                                                        .UpdateMsg = "プラグインの新しいバージョンが利用可能。" & vbNewLine & "ダウンロードするにはリリースページに行きたいか？", .CurVer = "現行のバージョン：　", .NewVer = "新バージョン：　"}
     'Public Shared ReadOnly LangList() As Language = {LangEnUS, LangEnGB, LangJa}
     Public Shared Function LangList() As Language()
         Return {LangEnUS, LangEnGB, LangJa}
     End Function
 
     Public Shared Function FallbackHelper(Str As String, Fallback As String)
-        If Str IsNot Nothing Then Return Str Else Return Fallback
+        If Str IsNot Nothing Then Return Str
+        If Fallback IsNot Nothing Then Return Fallback
+        Return "[Error loading text resource]"
     End Function
 End Class

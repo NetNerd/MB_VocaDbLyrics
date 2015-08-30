@@ -17,6 +17,11 @@
 'along with MB_VocaDbLyrics.  If Not, see < http: //www.gnu.org/licenses/>.
 
 
+
+'This is a pretty messy file. Some of that is just because it's an interface to a program
+'I don't really know the API of well And the rest Is because I'm good at creating messes.
+'I'm going to try to comment stuff in it now, but that may not help too much.
+
 Imports System.Runtime.InteropServices
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -38,9 +43,9 @@ Public Class Plugin
             CopyMemory(mbApiInterface, apiInterfacePtr, 456)
         End If
 
-        about.Name = "MB_VocaDbLyrics"
+        about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 3
+        about.VersionMinor = 4
         about.Revision = 0
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
@@ -70,44 +75,32 @@ Public Class Plugin
     ' called by MusicBee when the user clicks Apply or Save in the MusicBee Preferences screen.
     ' its up to you to figure out whether anything has changed and needs updating
     Public Sub SaveSettings()
-        Dim NewSettings As SettingsClass.SettingsCollection = ConfigPanel.GetSettings
-        If Not NewSettings.BlankCount = Nothing Then MySettings = NewSettings
+        ' Dim NewSettings As SettingsClass.SettingsCollection = ConfigPanel.GetSettings
+        ' If Not NewSettings.BlankCount = Nothing Then MySettings = NewSettings
+
+        MySettings = ConfigPanel.GetSettings
 
         ' save any persistent settings in a sub-folder of this path
-        Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
-
-        If Not FileIO.FileSystem.DirectoryExists(SettingsPath) Then
-            Try
-                FileIO.FileSystem.CreateDirectory(SettingsPath)
-            Catch ex As Exception
-                Dim Msg As String = FallbackHelper(MySettings.UILanguage.FolderCreateErrorMsg, LangEnUS.FolderCreateErrorMsg)
-                MsgBox(SettingsPath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
-            End Try
-        End If
-
-
-        Try
-            FileIO.FileSystem.WriteAllText(SettingsPath & "Settings.conf", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch", "UpdateChecking"}), False)
-        Catch ex As Exception
-            Dim Msg As String = FallbackHelper(MySettings.UILanguage.SaveErrorMsg, LangEnUS.SaveErrorMsg)
-            MsgBox("Settings.conf" & ":" & vbNewLine & Msg)
-        End Try
+        ' I don't know how MusicBee actually handles this in terms of changes over time, so I'll get the result again every time I need it.
+        SettingsClass.SaveFile("Settings.conf", mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch", "UpdateChecking"}), MySettings.UILanguage)
     End Sub
 
     ' MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
     Public Sub Close(ByVal reason As PluginCloseReason)
+        Eggs.StopBeeps()
+        Updates.StopCheck()
     End Sub
 
     ' uninstall this plugin - clean up any persisted files
     Public Sub Uninstall()
-        Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
+        Dim StoragePath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
         Try
-            FileIO.FileSystem.DeleteFile(SettingsPath & "Settings.conf")
-            FileIO.FileSystem.DeleteDirectory(SettingsPath, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
+            FileIO.FileSystem.DeleteFile(StoragePath & "Settings.conf")
+            FileIO.FileSystem.DeleteDirectory(StoragePath, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
         Catch ex As Exception
             Dim Msg1 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg1, LangEnUS.UninstallErrorMsg1)
             Dim Msg2 As String = FallbackHelper(MySettings.UILanguage.UninstallErrorMsg2, LangEnUS.UninstallErrorMsg2)
-            MsgBox(Msg1 & vbNewLine & vbNewLine & Msg2 & vbNewLine & SettingsPath.TrimEnd("\".ToCharArray))
+            MsgBox(Msg1 & vbNewLine & vbNewLine & Msg2 & vbNewLine & StoragePath.TrimEnd("\".ToCharArray))
         End Try
     End Sub
 
@@ -118,11 +111,18 @@ Public Class Plugin
         Select Case type
             Case NotificationType.PluginStartup
                 ' perform startup initialisation
-                Dim SettingsPath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
+                Dim StoragePath As String = mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\"
 
-                If FileIO.FileSystem.FileExists(SettingsPath & "Settings.conf") Then
+                If FileIO.FileSystem.FileExists(StoragePath & "Settings.conf") Then
                     Try
-                        MySettings.SetFromString(FileIO.FileSystem.ReadAllText(SettingsPath & "Settings.conf"))
+                        MySettings.SetFromString(FileIO.FileSystem.ReadAllText(StoragePath & "Settings.conf"))
+                    Catch
+                    End Try
+                End If
+
+                If FileIO.FileSystem.FileExists(StoragePath & "LastUpdateCheck") Then
+                    Try
+                        Updates.LastUpdate = DateTime.Parse(FileIO.FileSystem.ReadAllText(StoragePath & "LastUpdateCheck"))
                     Catch
                     End Try
                 End If
@@ -139,6 +139,7 @@ Public Class Plugin
     ' only required if PluginType = LyricsRetrieval
     ' return Nothing if no lyrics are found
     Public Function RetrieveLyrics(ByVal sourceFileUrl As String, ByVal artist As String, ByVal trackTitle As String, ByVal album As String, ByVal synchronisedPreferred As Boolean, ByVal provider As String) As String
+        'If Control.ModifierKeys And Keys.Shift = Keys.Shift Then Console.Beep()
         Dim WebProxy As Net.WebProxy = Nothing
         Try
             Dim Proxy() As String = mbApiInterface.Setting_GetWebProxy().Split(Convert.ToChar(0))
@@ -153,9 +154,8 @@ Public Class Plugin
         End Try
 
         If MySettings.UpdateChecking Then
-            If Updates.LastCheckTime(mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\") < DateTime.Now.AddDays(-1) Then
-                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, MySettings.UILanguage)
-                Updates.SaveLastUpdate(mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\")
+            If Updates.LastUpdate < DateTime.Now.AddDays(-1) Then
+                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.UILanguage)
             End If
         End If
 

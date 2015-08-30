@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigPanel.vb" />
+    <Compile Include="Eggs.vb" />
     <Compile Include="Plugin.vb" />
     <Compile Include="LangClass.vb" />
     <Compile Include="MusicBeeInterface.vb" />

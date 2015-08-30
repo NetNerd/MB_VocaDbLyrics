@@ -4,9 +4,9 @@
     Private Shared VerMajor As Integer
     Private Shared VerMinor As Integer
     Private Shared UILang As LanguageClass.Language
-    Private Shared LastUpdate As New DateTime(0)
+    Public Shared LastUpdate As New DateTime(0)
 
-    Public Shared Sub UpdateCheck(Proxy As Net.WebProxy, VersionMajor As Integer, VersionMinor As Integer, UILanguage As LanguageClass.Language)
+    Public Shared Sub UpdateCheck(Proxy As Net.WebProxy, VersionMajor As Integer, VersionMinor As Integer, StoragePath As String, UILanguage As LanguageClass.Language)
         If UpdateThread.IsAlive = False Then
             WebProx = Proxy
             VerMajor = VersionMajor
@@ -17,13 +17,23 @@
             UpdateThread.Start()
 
             LastUpdate = DateTime.Now
+            SettingsClass.SaveFile("LastUpdateCheck", StoragePath, LastUpdate.ToUniversalTime.ToString("u"), UILang)
         End If
+    End Sub
+
+    Public Shared Sub StopCheck()
+        UpdateThread.Abort()
     End Sub
 
     Private Shared Sub CheckerThreadStuff() 'Pro level name right there
         Dim LatestVer() As Integer = GetLatestVersion()
         If (LatestVer(0) > VerMajor) OrElse (LatestVer(0) = VerMajor And LatestVer(1) > VerMinor) Then
-            If MsgBox(LanguageClass.FallbackHelper(UILang.UpdateMsg, LanguageClass.LangEnUS.UpdateMsg), MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then ', "MB_VocaDbLyrics") Then
+            If MsgBox(
+                LanguageClass.FallbackHelper(UILang.UpdateMsg, LanguageClass.LangEnUS.UpdateMsg) & vbNewLine & vbNewLine &
+                LanguageClass.FallbackHelper(UILang.CurVer, LanguageClass.LangEnUS.CurVer) & VerMajor & "." & VerMinor & vbNewLine &
+                LanguageClass.FallbackHelper(UILang.NewVer, LanguageClass.LangEnUS.NewVer) & LatestVer(0) & "." & LatestVer(1),
+                MsgBoxStyle.YesNo) = MsgBoxResult.Yes _
+                Then
                 Try
                     Process.Start("https://github.com/NetNerd/MB_VocaDbLyrics/releases/latest")
                 Catch
@@ -65,36 +75,8 @@
         WebClient.Proxy = WebProx
         WebClient.Encoding = System.Text.Encoding.UTF8
 
-        RtnStr = WebClient.DownloadString("https://api.github.com/repos/netnerd/MB_VocaDbLyrics/releases")
+        RtnStr = WebClient.DownloadString("https://api.github.com/repos/netnerd/MB_VocaDbLyrics/releases/latest")
         WebClient.Dispose()
         Return RtnStr
     End Function
-
-    Public Shared Function LastCheckTime(StoragePath As String) As DateTime
-        'Return New DateTime(0)
-
-        If LastUpdate > New DateTime(0) Then
-            Return LastUpdate
-        End If
-
-        If FileIO.FileSystem.FileExists(StoragePath & "LastUpdateCheck") Then
-            Try
-                Return DateTime.Parse(FileIO.FileSystem.ReadAllText(StoragePath & "LastUpdateCheck"))
-            Catch
-            End Try
-        Else
-            Return New DateTime(0)
-        End If
-
-        Return New DateTime(9999, 12, 31)
-    End Function
-
-    Public Shared Sub SaveLastUpdate(StoragePath As String)
-        Try
-            FileIO.FileSystem.WriteAllText(StoragePath & "LastUpdateCheck", LastUpdate.ToUniversalTime.ToString("u"), False)
-        Catch ex As Exception
-            Dim Msg As String = LanguageClass.FallbackHelper(UILang.SaveErrorMsg, LanguageClass.LangEnUS.SaveErrorMsg)
-            MsgBox("LastUpdateCheck" & ":" & vbNewLine & Msg)
-        End Try
-    End Sub
 End Class

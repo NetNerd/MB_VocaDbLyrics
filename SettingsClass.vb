@@ -1,4 +1,23 @@
 ﻿Public Class SettingsClass
+    Public Shared Sub SaveFile(FileName As String, StoragePath As String, Data As String, ErrLang As LanguageClass.Language)
+        If Not FileIO.FileSystem.DirectoryExists(StoragePath) Then
+            Try
+                FileIO.FileSystem.CreateDirectory(StoragePath)
+            Catch ex As Exception
+                Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.FolderCreateErrorMsg, LanguageClass.LangEnUS.FolderCreateErrorMsg)
+                MsgBox(StoragePath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
+            End Try
+        End If
+
+
+        Try
+            FileIO.FileSystem.WriteAllText(StoragePath & FileName, Data, False)
+        Catch
+            Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.SaveErrorMsg, LanguageClass.LangEnUS.SaveErrorMsg)
+            MsgBox(FileName & ":" & vbNewLine & Msg)
+        End Try
+    End Sub
+
     Public Structure SettingsCollection
         Dim LangBox1Items() As String
         Dim LangBox2Items() As String
@@ -39,7 +58,7 @@
 
                     Case "BlankCount"
                         OutStr.WriteLine("BlankCount:" & BlankCount)
-                        
+
                     Case "ForceArtistMatch"
                         OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
 
