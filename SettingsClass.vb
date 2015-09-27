@@ -1,10 +1,30 @@
 ﻿Public Class SettingsClass
+    Public Shared Sub SaveFile(FileName As String, StoragePath As String, Data As String, ErrLang As LanguageClass.Language)
+        If Not FileIO.FileSystem.DirectoryExists(StoragePath) Then
+            Try
+                FileIO.FileSystem.CreateDirectory(StoragePath)
+            Catch ex As Exception
+                Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.FolderCreateErrorMsg, LanguageClass.LangEnUS.FolderCreateErrorMsg)
+                MsgBox(StoragePath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
+            End Try
+        End If
+
+
+        Try
+            FileIO.FileSystem.WriteAllText(StoragePath & FileName, Data, False)
+        Catch
+            Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.SaveErrorMsg, LanguageClass.LangEnUS.SaveErrorMsg)
+            MsgBox(FileName & ":" & vbNewLine & Msg)
+        End Try
+    End Sub
+
     Public Structure SettingsCollection
         Dim LangBox1Items() As String
         Dim LangBox2Items() As String
         Dim UILanguage As LanguageClass.Language
         Dim BlankCount As Byte
         Dim ForceArtistMatch As Boolean
+        Dim UpdateChecking As Boolean
 
         Function MakeString(Settings() As String) As String
             Dim OutStr As New IO.StringWriter
@@ -38,9 +58,12 @@
 
                     Case "BlankCount"
                         OutStr.WriteLine("BlankCount:" & BlankCount)
-                        
+
                     Case "ForceArtistMatch"
                         OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
+
+                    Case "UpdateChecking"
+                        OutStr.WriteLine("UpdateChecking:" & UpdateChecking.ToString())
 
                 End Select
             Next
@@ -74,7 +97,10 @@
                             BlankCount = Split(1)
 
                         Case "ForceArtistMatch"
-                            Boolean.TryParse(Split(1), ForceArtistMatch)
+                            ForceArtistMatch = Boolean.Parse(Split(1))
+
+                        Case "UpdateChecking"
+                            UpdateChecking = Boolean.Parse(Split(1))
 
                     End Select
                 End If

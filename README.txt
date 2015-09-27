@@ -1,4 +1,4 @@
-MB_VocaDbLyrics is a MusicBee plugin written in VB.NET to retreive lyrics for
+The VocaDB Lyrics Plugin (MB_VocaDbLyrics) is a MusicBee plugin written in VB.NET to retrieve lyrics for
 songs from VocaDB.
 
 The plugin operates as a standard lyrics provider, which means it will
