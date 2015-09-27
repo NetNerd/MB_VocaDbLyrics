@@ -75,6 +75,15 @@ Public Class Plugin
     ' called by MusicBee when the user clicks Apply or Save in the MusicBee Preferences screen.
     ' its up to you to figure out whether anything has changed and needs updating
     Public Sub SaveSettings()
+        Eggs.StopBeeps()
+        If Control.IsKeyLocked(Keys.Scroll) Then
+            If Control.ModifierKeys = Keys.Control Then
+                Eggs.PlaySong(Eggs.WorldsEndDancehall)
+            ElseIf Control.ModifierKeys = Keys.Alt Then
+                Eggs.PlaySong(Eggs.KarakuriPierrot)
+            End If
+        End If
+
         ' Dim NewSettings As SettingsClass.SettingsCollection = ConfigPanel.GetSettings
         ' If Not NewSettings.BlankCount = Nothing Then MySettings = NewSettings
 
