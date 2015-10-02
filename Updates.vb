@@ -17,7 +17,7 @@
             UpdateThread.Start()
 
             LastUpdate = DateTime.Now
-            SettingsClass.SaveFile("LastUpdateCheck", StoragePath, LastUpdate.ToUniversalTime.ToString("u"), UILang)
+            SettingsClass.SaveFile("LastUpdateCheck", StoragePath, LastUpdate.ToUniversalTime.ToString("u"), UILang, True)
         End If
     End Sub
 

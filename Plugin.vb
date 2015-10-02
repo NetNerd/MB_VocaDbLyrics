@@ -148,7 +148,6 @@ Public Class Plugin
     ' only required if PluginType = LyricsRetrieval
     ' return Nothing if no lyrics are found
     Public Function RetrieveLyrics(ByVal sourceFileUrl As String, ByVal artist As String, ByVal trackTitle As String, ByVal album As String, ByVal synchronisedPreferred As Boolean, ByVal provider As String) As String
-        'If Control.ModifierKeys And Keys.Shift = Keys.Shift Then Console.Beep()
         Dim WebProxy As Net.WebProxy = Nothing
         Try
             Dim Proxy() As String = mbApiInterface.Setting_GetWebProxy().Split(Convert.ToChar(0))
