@@ -4,6 +4,7 @@
     Private Shared VerMajor As Integer
     Private Shared VerMinor As Integer
     Private Shared UILang As LanguageClass.Language
+    Private Shared Path As String
     Public Shared LastUpdate As New DateTime(0)
 
     Public Shared Sub UpdateCheck(Proxy As Net.WebProxy, VersionMajor As Integer, VersionMinor As Integer, StoragePath As String, UILanguage As LanguageClass.Language)
@@ -12,12 +13,11 @@
             VerMajor = VersionMajor
             VerMinor = VersionMinor
             UILang = UILanguage
+            Path = StoragePath
 
             UpdateThread = New Threading.Thread(New Threading.ThreadStart(AddressOf CheckerThreadStuff)) With {.IsBackground = True}
+            Threading.Thread.Sleep(10) '10ms should be enough to make sure there's only one UpdateThread that can be started.
             UpdateThread.Start()
-
-            LastUpdate = DateTime.Now
-            SettingsClass.SaveFile("LastUpdateCheck", StoragePath, LastUpdate.ToUniversalTime.ToString("u"), UILang, True)
         End If
     End Sub
 
@@ -26,6 +26,9 @@
     End Sub
 
     Private Shared Sub CheckerThreadStuff() 'Pro level name right there
+        LastUpdate = DateTime.Now
+        SettingsClass.SaveFile("LastUpdateCheck", Path, LastUpdate.ToUniversalTime.ToString("u"), UILang, True)
+
         Dim LatestVer() As Integer = GetLatestVersion()
         If (LatestVer(0) > VerMajor) OrElse (LatestVer(0) = VerMajor And LatestVer(1) > VerMinor) Then
             If MsgBox(
