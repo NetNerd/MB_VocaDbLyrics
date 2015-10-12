@@ -1,11 +1,13 @@
 ﻿Public Class SettingsClass
-    Public Shared Sub SaveFile(FileName As String, StoragePath As String, Data As String, ErrLang As LanguageClass.Language)
+    Public Shared Sub SaveFile(FileName As String, StoragePath As String, Data As String, ErrLang As LanguageClass.Language, Optional SilentErrors As Boolean = False)
         If Not FileIO.FileSystem.DirectoryExists(StoragePath) Then
             Try
                 FileIO.FileSystem.CreateDirectory(StoragePath)
             Catch ex As Exception
-                Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.FolderCreateErrorMsg, LanguageClass.LangEnUS.FolderCreateErrorMsg)
-                MsgBox(StoragePath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
+                If SilentErrors = False Then
+                    Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.FolderCreateErrorMsg, LanguageClass.LangEnUS.FolderCreateErrorMsg)
+                    MsgBox(StoragePath.TrimEnd("\".ToCharArray) & ":" & vbNewLine & Msg)
+                End If
             End Try
         End If
 
@@ -13,8 +15,10 @@
         Try
             FileIO.FileSystem.WriteAllText(StoragePath & FileName, Data, False)
         Catch
-            Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.SaveErrorMsg, LanguageClass.LangEnUS.SaveErrorMsg)
-            MsgBox(FileName & ":" & vbNewLine & Msg)
+            If SilentErrors = False Then
+                Dim Msg As String = LanguageClass.FallbackHelper(ErrLang.SaveErrorMsg, LanguageClass.LangEnUS.SaveErrorMsg)
+                MsgBox(FileName & ":" & vbNewLine & Msg)
+            End If
         End Try
     End Sub
 

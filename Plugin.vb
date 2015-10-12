@@ -45,10 +45,10 @@ Public Class Plugin
 
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 4
+        about.VersionMinor = 5
         about.Revision = 0
         about.PluginInfoVersion = about.VersionMinor
-        about.Description = "A lyrics provider for VocaDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
+        about.Description = "A lyrics provider for VocaDB and UtaiteDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
         about.Author = "NetNerd"
         about.TargetApplication = "VocaDB"
         about.Type = PluginType.LyricsRetrieval
@@ -141,14 +141,13 @@ Public Class Plugin
     ' return an array of lyric or artwork provider names this plugin supports
     ' the providers will be iterated through one by one and passed to the RetrieveLyrics/ RetrieveArtwork function in order set by the user in the MusicBee Tags(2) preferences screen until a match is found
     Public Function GetProviders() As String()
-        Return New String() {"VocaDB"}
+        Return New String() {"VocaDB", "UtaiteDB"}
     End Function
 
     ' return lyrics for the requested artist/title from the requested provider
     ' only required if PluginType = LyricsRetrieval
     ' return Nothing if no lyrics are found
     Public Function RetrieveLyrics(ByVal sourceFileUrl As String, ByVal artist As String, ByVal trackTitle As String, ByVal album As String, ByVal synchronisedPreferred As Boolean, ByVal provider As String) As String
-        'If Control.ModifierKeys And Keys.Shift = Keys.Shift Then Console.Beep()
         Dim WebProxy As Net.WebProxy = Nothing
         Try
             Dim Proxy() As String = mbApiInterface.Setting_GetWebProxy().Split(Convert.ToChar(0))
@@ -169,6 +168,7 @@ Public Class Plugin
         End If
 
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch}
+        If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("http://utaitedb.net")
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
 
