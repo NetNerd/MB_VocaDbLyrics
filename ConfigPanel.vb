@@ -42,11 +42,11 @@ Public Class ConfigPanel
         BtnL = New Button With {.Bounds = New Rectangle(144, 23, 24, 22), .Text = "<"}
         BtnR = New Button With {.Bounds = New Rectangle(144, 47, 24, 22), .Text = ">"}
 
-        LblUI = New Label With {.Bounds = New Rectangle(10, 94, 94, 14)}
-        UILangCB = New ComboBox With {.Bounds = New Rectangle(106, 89, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
+        LblUI = New Label With {.Bounds = New Rectangle(10, 94, 98, 14)}
+        UILangCB = New ComboBox With {.Bounds = New Rectangle(110, 89, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
 
-        LblBlanks = New Label With {.Bounds = New Rectangle(10, 119, 94, 14)}
-        BlanksCB = New ComboBox With {.Bounds = New Rectangle(106, 114, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
+        LblBlanks = New Label With {.Bounds = New Rectangle(10, 119, 98, 14)}
+        BlanksCB = New ComboBox With {.Bounds = New Rectangle(110, 114, 100, 21), .DropDownStyle = ComboBoxStyle.DropDownList}
         BlanksCB.Items.AddRange({1, 2, 3, 4, 5, 6, 7, 8, 9})
 
         LblForceArtist = New Label With {.Bounds = New Rectangle(27, 144, 199, 14)}
