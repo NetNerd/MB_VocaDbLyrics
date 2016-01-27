@@ -28,6 +28,7 @@
         Dim UILanguage As LanguageClass.Language
         Dim BlankCount As Byte
         Dim ForceArtistMatch As Boolean
+        Dim UseOldArtistMatch As Boolean
         Dim UpdateChecking As Boolean
 
         Function MakeString(Settings() As String) As String
@@ -66,6 +67,9 @@
                     Case "ForceArtistMatch"
                         OutStr.WriteLine("ForceArtistMatch:" & ForceArtistMatch.ToString())
 
+                    Case "UseOldArtistMatch"
+                        OutStr.WriteLine("UseOldArtistMatch:" & UseOldArtistMatch.ToString())
+
                     Case "UpdateChecking"
                         OutStr.WriteLine("UpdateChecking:" & UpdateChecking.ToString())
 
@@ -82,7 +86,7 @@
 
                 Dim Split() As String = Setting.Split(":")
 
-                If Split.Length > 1 AndAlso String.IsNullOrEmpty(Split(0)) = False And String.IsNullOrEmpty(Split(1)) = False Then
+                If Split.Length > 1 AndAlso String.IsNullOrEmpty(Split(0)) = False Then
                     Select Case Split(0)
                         Case "LangBox1Items"
                             LangBox1Items = Split(1).Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)
@@ -102,6 +106,9 @@
 
                         Case "ForceArtistMatch"
                             ForceArtistMatch = Boolean.Parse(Split(1))
+
+                        Case "UseOldArtistMatch"
+                            UseOldArtistMatch = Boolean.Parse(Split(1))
 
                         Case "UpdateChecking"
                             UpdateChecking = Boolean.Parse(Split(1))
