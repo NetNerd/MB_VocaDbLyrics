@@ -45,7 +45,7 @@ Public Class Plugin
 
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 5
+        about.VersionMinor = 6
         about.Revision = 0
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB and UtaiteDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
