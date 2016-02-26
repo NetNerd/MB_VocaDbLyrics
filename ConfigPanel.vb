@@ -62,8 +62,8 @@ Public Class ConfigPanel
         Border2 = New Panel With {.Bounds = New Rectangle(3, 2, 306, 168)}
 
 
-        Tooltipper = New ToolTip
-        TooltipperLong = New ToolTip With {.AutomaticDelay = 1000}
+        Tooltipper = New ToolTip With {.AutomaticDelay = 1500, .ReshowDelay = 1000}
+        TooltipperLong = New ToolTip With {.AutomaticDelay = 2500, .ReshowDelay = 1500}
     End Sub
 
     Shared Sub SetupControls(ByVal Settings As SettingsCollection)
