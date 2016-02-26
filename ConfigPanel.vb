@@ -28,6 +28,9 @@ Public Class ConfigPanel
     Private Shared Border1 As Panel
     Private Shared Border2 As Panel
 
+    Private Shared Tooltipper As ToolTip
+    Private Shared TooltipperLong As ToolTip
+
 
     Private Shared MySettings As New SettingsCollection
 
@@ -57,6 +60,10 @@ Public Class ConfigPanel
 
         Border1 = New Panel With {.Bounds = New Rectangle(2, 1, 308, 170), .BackColor = Color.FromArgb(224, 224, 224)}
         Border2 = New Panel With {.Bounds = New Rectangle(3, 2, 306, 168)}
+
+
+        Tooltipper = New ToolTip
+        TooltipperLong = New ToolTip With {.AutomaticDelay = 1000}
     End Sub
 
     Shared Sub SetupControls(ByVal Settings As SettingsCollection)
@@ -107,11 +114,28 @@ Public Class ConfigPanel
 
     Private Shared Sub TranslateLbls()
         LblLang1.Text = FallbackHelper(MySettings.UILanguage.LblLang1, LangEnUS.LblLang1)
+        Tooltipper.SetToolTip(LblLang1, FallbackHelper(MySettings.UILanguage.LblLang1_Tip, LangEnUS.LblLang1_Tip))
+        TooltipperLong.SetToolTip(LangBox1, FallbackHelper(MySettings.UILanguage.LblLang1_Tip, LangEnUS.LblLang1_Tip))
+
         LblLang2.Text = FallbackHelper(MySettings.UILanguage.LblLang2, LangEnUS.LblLang2)
+        Tooltipper.SetToolTip(LblLang2, FallbackHelper(MySettings.UILanguage.LblLang2_Tip, LangEnUS.LblLang2_Tip))
+        TooltipperLong.SetToolTip(LangBox2, FallbackHelper(MySettings.UILanguage.LblLang2_Tip, LangEnUS.LblLang2_Tip))
+
         LblUI.Text = FallbackHelper(MySettings.UILanguage.LblUI, LangEnUS.LblUI)
+        Tooltipper.SetToolTip(LblUI, FallbackHelper(MySettings.UILanguage.LblUI_Tip, LangEnUS.LblUI_Tip))
+        TooltipperLong.SetToolTip(UILangCB, FallbackHelper(MySettings.UILanguage.LblUI_Tip, LangEnUS.LblUI_Tip))
+
         LblBlanks.Text = FallbackHelper(MySettings.UILanguage.LblBlanks, LangEnUS.LblBlanks)
+        Tooltipper.SetToolTip(LblBlanks, FallbackHelper(MySettings.UILanguage.LblBlanks_Tip, LangEnUS.LblBlanks_Tip))
+        TooltipperLong.SetToolTip(BlanksCB, FallbackHelper(MySettings.UILanguage.LblBlanks_Tip, LangEnUS.LblBlanks_Tip))
+
         LblForceArtist.Text = FallbackHelper(MySettings.UILanguage.LblForceArtist, LangEnUS.LblForceArtist)
+        Tooltipper.SetToolTip(LblForceArtist, FallbackHelper(MySettings.UILanguage.LblForceArtist_Tip, LangEnUS.LblForceArtist_Tip))
+        TooltipperLong.SetToolTip(ForceArtistCB, FallbackHelper(MySettings.UILanguage.LblForceArtist_Tip, LangEnUS.LblForceArtist_Tip))
+
         LblUpdateCheck.Text = FallbackHelper(MySettings.UILanguage.LblUpdateCheck, LangEnUS.LblUpdateCheck)
+        Tooltipper.SetToolTip(LblUpdateCheck, FallbackHelper(MySettings.UILanguage.LblUpdateCheck_Tip, LangEnUS.LblUpdateCheck_Tip))
+        TooltipperLong.SetToolTip(UpdateCheckCB, FallbackHelper(MySettings.UILanguage.LblUpdateCheck_Tip, LangEnUS.LblUpdateCheck_Tip))
     End Sub
 
 
