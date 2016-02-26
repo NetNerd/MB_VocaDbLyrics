@@ -94,7 +94,7 @@ Public Class LanguageClass
                                                           .LblUI = "UI Language:", .LblUI_Tip = "The language to use for the plugin's UI.",
                                                           .LblBlanks = "Separator Lines:", .LblBlanks_Tip = "The number of blank lines between different languages in the returned lyrics.",
                                                           .LblForceArtist = "Force Artist Matching", .LblForceArtist_Tip = "Require all artists to be present on VocaDB and match the song's entry." & vbNewLine & "When this is unchecked, only artists that are in the database need to match the song's entry - any others will be ignored.",
-                                                          .LblUpdateCheck = "Automatically Check for Updates", .LblUpdateCheck_Tip = "Show an alert window when a newer version of the plugin is avaliable.",
+                                                          .LblUpdateCheck = "Automatically Check for Updates", .LblUpdateCheck_Tip = "Show a notification window when a newer version of the plugin is avaliable.",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
                                                           .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:",
                                                           .UpdateMsg = "A new version of the plugin is available." & vbNewLine & "Would you like to visit the release page to download it?", .CurVer = "Current Version: ", .NewVer = "New Version: "}
