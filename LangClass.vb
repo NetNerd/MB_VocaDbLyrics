@@ -28,18 +28,30 @@ Public Class LanguageClass
 
 
         'Optional UI strings.
+        'The "_Tip" strings are used for tooltips.
+
         'LblLang1 and LblLang2 Are for the listboxes.
         '1 is for the unused language box and 2 is for the used language box.
         Dim LblLang1 As String
+        Dim LblLang1_Tip As String
         Dim LblLang2 As String
+        Dim LblLang2_Tip As String
+
         'LblUI is for the UI language selection box.
         Dim LblUI As String
+        Dim LblUI_Tip As String
+
         'LblBlanks is for the separator lines count.
         Dim LblBlanks As String
+        Dim LblBlanks_Tip As String
+
         'LblForceArtist is for the force artist match checkbox.
         Dim LblForceArtist As String
+        Dim LblForceArtist_Tip As String
+
         'LblUpdateCheck is for the auto update checking checkbox.
         Dim LblUpdateCheck As String
+        Dim LblUpdateCheck_Tip As String
 
         Dim SaveErrorMsg As String
         Dim FolderCreateErrorMsg As String
@@ -77,7 +89,12 @@ Public Class LanguageClass
 
     'LangEnUS needs to be maintained
     Public Shared ReadOnly LangEnUS As New Language With {.Japanese = "Non-English", .Romaji = "Romanized", .English = "English", .Culture = "en-US", .Name = "English (US)",
-                                                          .LblLang1 = "Available Languages:", .LblLang2 = "Displayed Languages:", .LblUI = "UI Language:", .LblBlanks = "Separator Lines:", .LblForceArtist = "Force Artist Matching", .LblUpdateCheck = "Automatically Check for Updates",
+                                                          .LblLang1 = "Available Languages:", .LblLang1_Tip = "The languages which can be retrieved from VocaDB, but will not be included in the lyrics.",
+                                                          .LblLang2 = "Displayed Languages:", .LblLang2_Tip = "The languages which will be included in the lyrics.",
+                                                          .LblUI = "UI Language:", .LblUI_Tip = "The language to use for the plugin's UI.",
+                                                          .LblBlanks = "Separator Lines:", .LblBlanks_Tip = "The number of blank lines between different languages in the returned lyrics.",
+                                                          .LblForceArtist = "Force Artist Matching", .LblForceArtist_Tip = "Require all artists to be present on VocaDB and match the song's entry." & vbNewLine & "When this is unchecked, only artists that are in the database need to match the song's entry - any others will be ignored.",
+                                                          .LblUpdateCheck = "Automatically Check for Updates", .LblUpdateCheck_Tip = "Show an alert window when a newer version of the plugin is avaliable.",
                                                           .SaveErrorMsg = "The file could not be saved.", .FolderCreateErrorMsg = "The folder could not be created.",
                                                           .UninstallErrorMsg1 = "MB_VocaDbLyrics failed to remove its settings files.", .UninstallErrorMsg2 = "The remaining files can be found in:",
                                                           .UpdateMsg = "A new version of the plugin is available." & vbNewLine & "Would you like to visit the release page to download it?", .CurVer = "Current Version: ", .NewVer = "New Version: "}
