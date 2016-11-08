@@ -1,4 +1,13 @@
 # VocaDB Lyrics Plugin for MusicBee (MB_VocaDbLyrics)
+
+### Notice on the current state of the plugin
+So... things are pretty broken. https://github.com/NetNerd/MB_VocaDbLyrics/issues/9
+This is pretty much an interface for a core which doesn't work at the moment. I'll try to get around to fixing it eventually, but for now this is kinda dead.
+
+&nbsp;
+
+&nbsp;
+
 This is a MusicBee plugin written in VB.NET to retrieve lyrics for songs from VocaDB and UtaiteDB.
 
 The plugin operates as a standard lyrics provider, which means it will automatically act just like one of the included lyrics sources. I believe it should work on MusicBee 2.0 and up, however testing has only been performed with MusicBee 2.5.
