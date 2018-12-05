@@ -32,7 +32,7 @@ Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .ArtistWhitelist = "初音ミク,鏡音リン,鏡音レン,巡音ルカ,KAITO,MEIKO,GUMI,IA,結月ゆかり,重音テト,洛天依,神威がくぽ,猫村いろは,雪歌ユフ,SeeU,シユ,蒼姫ラピス,Lily,リリィ,SF-A2,v flower,さとうささら,波音リツ,MAYU,言和", .UpdateChecking = True}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .ArtistWhitelist = "初音ミク,鏡音リン,鏡音レン,巡音ルカ,KAITO,MEIKO,GUMI,IA,結月ゆかり,重音テト,洛天依,神威がくぽ,猫村いろは,雪歌ユフ,SeeU,シユ,蒼姫ラピス,Lily,リリィ,SF-A2,v flower,さとうささら,波音リツ,MAYU,言和,乐正绫,ONE,音街ウナ,AVANNA,歌愛ユキ,VY1,CUL,カル,まふまふ,DECO,みきと,そらる,ギガ,花たん,YURiCa,ユリカ", .UpdateChecking = True}
 
     Private SpecialLanguages As Dictionary(Of String, String) =
         New Dictionary(Of String, String) From {{"orig", "Original"}, {"rom", "Romanized"}}
@@ -48,8 +48,8 @@ Public Class Plugin
 
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 7
-        about.Revision = 0
+        about.VersionMinor = 8
+        about.Revision = 1
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB and UtaiteDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
         about.Author = "NetNerd"
