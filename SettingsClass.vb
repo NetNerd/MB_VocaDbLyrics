@@ -28,6 +28,7 @@
         Dim BlankCount As Byte
         Dim ForceArtistMatch As Boolean
         Dim UseOldArtistMatch As Boolean
+        Dim ArtistWhitelist As String
         Dim UpdateChecking As Boolean
 
         Function MakeString(Settings() As String) As String
@@ -49,6 +50,9 @@
 
                     Case "UseOldArtistMatch"
                         OutStr.WriteLine("UseOldArtistMatch:" & UseOldArtistMatch.ToString())
+
+                    Case "ArtistWhitelist"
+                        OutStr.WriteLine("ArtistWhitelist:" & ArtistWhitelist)
 
                     Case "UpdateChecking"
                         OutStr.WriteLine("UpdateChecking:" & UpdateChecking.ToString())
@@ -93,6 +97,9 @@
 
                         Case "UseOldArtistMatch"
                             UseOldArtistMatch = Boolean.Parse(Split(1))
+
+                        Case "ArtistWhitelist"
+                            ArtistWhitelist = Split(1)
 
                         Case "UpdateChecking"
                             UpdateChecking = Boolean.Parse(Split(1))

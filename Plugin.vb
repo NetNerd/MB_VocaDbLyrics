@@ -32,7 +32,7 @@ Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .UpdateChecking = True}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .ArtistWhitelist = "初音ミク,鏡音リン,鏡音レン,巡音ルカ,KAITO,MEIKO,GUMI,IA,結月ゆかり,重音テト,洛天依,神威がくぽ,猫村いろは,雪歌ユフ,SeeU,シユ,蒼姫ラピス,Lily,リリィ,SF-A2,v flower,さとうささら,波音リツ,MAYU,言和", .UpdateChecking = True}
 
     Private SpecialLanguages As Dictionary(Of String, String) =
         New Dictionary(Of String, String) From {{"orig", "Original"}, {"rom", "Romanized"}}
@@ -58,7 +58,7 @@ Public Class Plugin
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
-        about.ConfigurationPanelHeight = 231
+        about.ConfigurationPanelHeight = 278
         Return about
     End Function
 
@@ -94,7 +94,7 @@ Public Class Plugin
 
         ' save any persistent settings in a sub-folder of this path
         ' I don't know how MusicBee actually handles this in terms of changes over time, so I'll get the result again every time I need it.
-        SettingsClass.SaveFile("Settings.conf", mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.MakeString({"LangBoxText", "UILanguage", "BlankCount", "ForceArtistMatch", "UseOldArtistMatch", "UpdateChecking"}), MySettings.UILanguage)
+        SettingsClass.SaveFile("Settings.conf", mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.MakeString({"LangBoxText", "UILanguage", "BlankCount", "ForceArtistMatch", "UseOldArtistMatch", "ArtistWhitelist", "UpdateChecking"}), MySettings.UILanguage)
     End Sub
 
     ' MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
@@ -151,6 +151,39 @@ Public Class Plugin
     ' only required if PluginType = LyricsRetrieval
     ' return Nothing if no lyrics are found
     Public Function RetrieveLyrics(ByVal sourceFileUrl As String, ByVal artist As String, ByVal trackTitle As String, ByVal album As String, ByVal synchronisedPreferred As Boolean, ByVal provider As String) As String
+        If Not GetProviders().Contains(provider) Then
+            Return Nothing 'Are we being run for other providers??
+        End If
+
+
+        ' by default we only get the first artist. this gives us all artists.
+        Dim multiartist As String
+        If sourceFileUrl.Length = 0 Then
+            multiartist = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artists)
+        Else
+            multiartist = mbApiInterface.Library_GetFileTag(sourceFileUrl, MetaDataType.Artists)
+        End If
+
+        If multiartist.Length > 0 Then
+            artist = multiartist
+        End If
+
+        If MySettings.ArtistWhitelist.Length > 0 Then
+            Dim ArtistWhiteList As String() = MySettings.ArtistWhitelist.ToLower.Split(",")
+            Dim artistLower = multiartist.ToLower()
+            Dim FoundArtist = False
+
+            For Each WLArtist In ArtistWhiteList
+                If artistLower.Contains(WLArtist.Trim()) Then
+                    FoundArtist = True
+                    Exit For
+                End If
+            Next
+
+            If Not FoundArtist Then Return Nothing
+        End If
+
+
         Dim WebProxy As Net.WebProxy = Nothing
         Try
             Dim Proxy() As String = mbApiInterface.Setting_GetWebProxy().Split(Convert.ToChar(0))
@@ -170,9 +203,6 @@ Public Class Plugin
             End If
         End If
 
-        If Not {"VocaDB", "UtaiteDB"}.Contains(provider) Then
-            Return Nothing 'Are we being run for other providers??
-        End If
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch, .UseOldForceArtistMatch = MySettings.UseOldArtistMatch}
         If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
