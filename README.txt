@@ -23,6 +23,15 @@ returned lyrics (among other things).
 Codes for additional languages can be found in the '639-1' column of this
 wikipedia article: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
+An artist whitelist function helps limit many unnecessary requests to the
+databases. The default setting covers the 30 most used voices on vocadb in
+Japanese, so it may skip some artists you care about (it certainly will for
+UtaiteDB users).  
+A romanised version of the default is
+"Hatsune,Kagamine,Megurine,KAITO,MEIKO,GUMI,IA,Yuzuki,Kasane,Tianyi,Gakupo,Gackpoid,Nekomura,Sekka,SeeU,Aoki,Lily,SF-A2,v flower,Satou,Namine,MAYU,YANHE,Yan He"
+If you don't care about sending info about every song you play to VocaDB and
+UtaiteDB you can disable this by deleting its content.
+
 Multilingual support is very basic and ideally should be rewritten, but for now
 this isn't a major issue.
 User-defined languages are currently not supported.
