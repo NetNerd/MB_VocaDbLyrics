@@ -197,7 +197,7 @@ Public Class Plugin
                 For Each LyricsContainer In LyricsResult.LyricsContainers
                     If Not DoneLyrics.Contains(LyricsContainer) Then
                         If LangboxtextClean.Length = 0 Or 'Make optional to specify languages
-                           (LyricsContainer.Language = Item And Not LyricsContainer.TranslationType = "Romanized") Or 'Romanized requires special case
+                           (LyricsContainer.Language.StartsWith(Item) And Not LyricsContainer.TranslationType = "Romanized") Or 'Romanized requires special case
                            (SpecialLanguages.ContainsKey(Item) AndAlso LyricsContainer.TranslationType = SpecialLanguages.Item(Item)) Then
 
                             ReDim Preserve DoneLyrics(DoneLyrics.Length)
