@@ -170,6 +170,9 @@ Public Class Plugin
             End If
         End If
 
+        If Not {"VocaDB", "UtaiteDB"}.Contains(provider) Then
+            Return Nothing 'Are we being run for other providers??
+        End If
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch, .UseOldForceArtistMatch = MySettings.UseOldArtistMatch}
         If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
