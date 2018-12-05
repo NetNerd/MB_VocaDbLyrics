@@ -29,6 +29,8 @@ Japanese, so it may skip some artists you care about (it certainly will for
 UtaiteDB users).  
 A romanised version of the default is
 "Hatsune,Kagamine,Megurine,KAITO,MEIKO,GUMI,IA,Yuzuki,Kasane,Tianyi,Gakupo,Gackpoid,Nekomura,Sekka,SeeU,Aoki,Lily,SF-A2,v flower,Satou,Namine,MAYU,YANHE,Yan He"
+If you don't care about sending info about every song you play to VocaDB and
+UtaiteDB you can disable this by deleting its content.
 
 Multilingual support is very basic and ideally should be rewritten, but for now
 this isn't a major issue.
