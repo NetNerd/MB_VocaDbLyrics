@@ -32,11 +32,14 @@ Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBox1Items = {"Japanese"}, .LangBox2Items = {"Romaji", "English"}, .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .UpdateChecking = True}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .UpdateChecking = True}
+
+    Private SpecialLanguages As Dictionary(Of String, String) =
+        New Dictionary(Of String, String) From {{"orig", "Original"}, {"rom", "Romanized"}}
 
     Public Function Initialise(ByVal apiInterfacePtr As IntPtr) As PluginInfo
         'I'm not quite sure exactly what this does.
-        'It seems like it's just simple initilisation, but done kinda weird.
+        'It seems like it's just simple initialisation, but done kinda weird.
         'Anyway, this is cleaner than what was in the sample plugin and works fine for me.
         CopyMemory(mbApiInterface, apiInterfacePtr, 4)
         If mbApiInterface.MusicBeeVersion > -1 Then
@@ -45,7 +48,7 @@ Public Class Plugin
 
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 6
+        about.VersionMinor = 7
         about.Revision = 0
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB and UtaiteDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
@@ -55,7 +58,7 @@ Public Class Plugin
         about.MinInterfaceVersion = MinInterfaceVersion
         about.MinApiRevision = 20
         about.ReceiveNotifications = ReceiveNotificationFlags.StartupOnly
-        about.ConfigurationPanelHeight = 171
+        about.ConfigurationPanelHeight = 231
         Return about
     End Function
 
@@ -91,7 +94,7 @@ Public Class Plugin
 
         ' save any persistent settings in a sub-folder of this path
         ' I don't know how MusicBee actually handles this in terms of changes over time, so I'll get the result again every time I need it.
-        SettingsClass.SaveFile("Settings.conf", mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.MakeString({"LangBox1Items", "LangBox2Items", "UILanguage", "BlankCount", "ForceArtistMatch", "UseOldArtistMatch", "UpdateChecking"}), MySettings.UILanguage)
+        SettingsClass.SaveFile("Settings.conf", mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.MakeString({"LangBoxText", "UILanguage", "BlankCount", "ForceArtistMatch", "UseOldArtistMatch", "UpdateChecking"}), MySettings.UILanguage)
     End Sub
 
     ' MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
@@ -168,22 +171,50 @@ Public Class Plugin
         End If
 
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch, .UseOldForceArtistMatch = MySettings.UseOldArtistMatch}
-        If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("http://utaitedb.net")
+        If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
 
         If LyricsResult.ErrorType = VocaDbLyricsLib.VocaDbLyricsError.None Then
-            For Each Lang In MySettings.LangBox2Items
+            Dim DoneLyrics As VocaDbLyricsLib.LyricsContainer()
+            ReDim DoneLyrics(0)
+
+            Dim LangboxtextClean = MySettings.LangBoxText.Trim()
+            Dim Languages = LangboxtextClean.Split(",")
+            For Each Item In Languages
+                Dim ItemFriendly As String
+                If Item.Contains("/") Then
+                    ItemFriendly = Item.Split("/")(1).Trim()
+                    Item = Item.Split("/")(0).ToLower().Trim()
+                Else
+                    ItemFriendly = Item.Trim()
+                    Item = Item.ToLower()
+                End If
+
                 For Each LyricsContainer In LyricsResult.LyricsContainers
-                    If LyricsContainer.Language = Lang Then
-                        'If LyricsWriter.ToString.Length > 0 Then LyricsWriter.Write(vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine)
-                        If LyricsWriter.ToString.Length > 0 Then
-                            For i = 0 To MySettings.BlankCount
-                                LyricsWriter.Write(vbNewLine)
-                            Next
+                    If Not DoneLyrics.Contains(LyricsContainer) Then
+                        If LangboxtextClean.Length = 0 Or 'Make optional to specify languages
+                           (LyricsContainer.Language = Item And Not LyricsContainer.TranslationType = "Romanized") Or 'Romanized requires special case
+                           (SpecialLanguages.ContainsKey(Item) AndAlso LyricsContainer.TranslationType = SpecialLanguages.Item(Item)) Then
+
+                            ReDim Preserve DoneLyrics(DoneLyrics.Length)
+                            DoneLyrics(DoneLyrics.Length - 1) = LyricsContainer
+
+                            'If LyricsWriter.ToString.Length > 0 Then LyricsWriter.Write(vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine & vbNewLine)
+                            If LyricsWriter.ToString.Length > 0 Then
+                                For i = 0 To MySettings.BlankCount
+                                    LyricsWriter.Write(vbNewLine)
+                                Next
+                            End If
+                            If LangboxtextClean.Length = 0 Or Languages.Length > 1 Then
+                                If ItemFriendly.Length > 0 Then
+                                    LyricsWriter.WriteLine(ItemFriendly & ":")
+                                Else
+                                    LyricsWriter.WriteLine(LyricsContainer.Language & ":")
+                                End If
+                            End If
+                            LyricsWriter.Write(LyricsContainer.Lyrics)
                         End If
-                        If MySettings.LangBox2Items.Count > 1 Then LyricsWriter.WriteLine(MySettings.UILanguage.LocalizeFromString(Lang) & ":")
-                        LyricsWriter.Write(LyricsContainer.Lyrics)
                     End If
                 Next
             Next
