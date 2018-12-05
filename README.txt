@@ -1,5 +1,5 @@
 The VocaDB Lyrics Plugin (MB_VocaDbLyrics) is a MusicBee plugin written in
-VB.NET to retrieve lyrics for songs from VocaDB and UtaiteDB.
+VB.NET to retrieve lyrics for songs from VocaDB, UtaiteDB, and TouhouDB.
 
 The plugin operates as a standard lyrics provider, which means it will
 automatically act just like one of the included lyrics sources. I believe it
@@ -24,11 +24,11 @@ Codes for additional languages can be found in the '639-1' column of this
 wikipedia article: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 An artist whitelist function helps limit many unnecessary requests to the
-databases. The default setting covers the 30 most used voices on vocadb in
-Japanese, so it may skip some artists you care about (it certainly will for
-UtaiteDB users).  
+databases. The default setting covers the 40 most used voices on VocaDB and top
+10 artists on UtaiteDB in Japanese, so it may skip some artists you care about
+(it certainly will for UtaiteDB and TouhouDB users).  
 A romanised version of the default is
-"Hatsune,Kagamine,Megurine,KAITO,MEIKO,GUMI,IA,Yuzuki,Kasane,Tianyi,Gakupo,Gackpoid,Nekomura,Sekka,SeeU,Aoki,Lily,SF-A2,v flower,Satou,Namine,MAYU,YANHE,Yan He"
+"Hatsune,Kagamine,Megurine,KAITO,MEIKO,GUMI,IA,Yuzuki,Kasane,Tianyi,Gakupo,Gackpoid,Nekomura,Sekka,SeeU,Aoki,Lily,SF-A2,v flower,Satou,Namine,MAYU,YANHE,Yan He,Yuezheng,ONE,Otomachi,AVANNA,Kaai,VY1,CUL,Mafumafu,Mikito,Soraru,GigaP,Hanatan,YuRiCa,Yurika"
 If you don't care about sending info about every song you play to VocaDB and
 UtaiteDB you can disable this by deleting its content.
 

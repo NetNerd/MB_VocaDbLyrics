@@ -32,7 +32,7 @@ Public Class Plugin
     Private mbApiInterface As New MusicBeeApiInterface
     Private about As New PluginInfo
     Private SettingsFolder As String = "MB_VocaDbLyrics"
-    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .ArtistWhitelist = "初音ミク,鏡音リン,鏡音レン,巡音ルカ,KAITO,MEIKO,GUMI,IA,結月ゆかり,重音テト,洛天依,神威がくぽ,猫村いろは,雪歌ユフ,SeeU,シユ,蒼姫ラピス,Lily,リリィ,SF-A2,v flower,さとうささら,波音リツ,MAYU,言和", .UpdateChecking = True}
+    Private MySettings As New SettingsClass.SettingsCollection With {.LangBoxText = "rom/Romaji, ja/Japanese, orig/Original Language, en/English", .UILanguage = LangEnUS, .BlankCount = 5, .ForceArtistMatch = False, .UseOldArtistMatch = False, .ArtistWhitelist = "初音ミク,鏡音リン,鏡音レン,巡音ルカ,KAITO,MEIKO,GUMI,IA,結月ゆかり,重音テト,洛天依,神威がくぽ,猫村いろは,雪歌ユフ,SeeU,シユ,蒼姫ラピス,Lily,リリィ,SF-A2,v flower,さとうささら,波音リツ,MAYU,言和,乐正绫,ONE,音街ウナ,AVANNA,歌愛ユキ,VY1,CUL,カル,まふまふ,DECO,みきと,そらる,ギガ,花たん,YURiCa,ユリカ", .UpdateChecking = True}
 
     Private SpecialLanguages As Dictionary(Of String, String) =
         New Dictionary(Of String, String) From {{"orig", "Original"}, {"rom", "Romanized"}}
@@ -48,10 +48,10 @@ Public Class Plugin
 
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
-        about.VersionMinor = 7
+        about.VersionMinor = 9
         about.Revision = 0
         about.PluginInfoVersion = about.VersionMinor
-        about.Description = "A lyrics provider for VocaDB and UtaiteDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
+        about.Description = "A lyrics provider for VocaDB, UtaiteDB, and TouhouDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
         about.Author = "NetNerd"
         about.TargetApplication = "VocaDB"
         about.Type = PluginType.LyricsRetrieval
@@ -144,7 +144,7 @@ Public Class Plugin
     ' return an array of lyric or artwork provider names this plugin supports
     ' the providers will be iterated through one by one and passed to the RetrieveLyrics/ RetrieveArtwork function in order set by the user in the MusicBee Tags(2) preferences screen until a match is found
     Public Function GetProviders() As String()
-        Return New String() {"VocaDB", "UtaiteDB"}
+        Return New String() {"VocaDB", "UtaiteDB", "TouhouDB"}
     End Function
 
     ' return lyrics for the requested artist/title from the requested provider
@@ -204,7 +204,13 @@ Public Class Plugin
         End If
 
         Dim LyricsLib As New VocaDbLyricsLib With {.UserAgent = "MB_VocaDbLyrics", .AppendDefaultUserAgent = True, .Proxy = WebProxy, .ForceArtistMatch = MySettings.ForceArtistMatch, .UseOldForceArtistMatch = MySettings.UseOldArtistMatch}
-        If provider = "UtaiteDB" Then LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
+        If provider = "UtaiteDB" Then
+            LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
+        ElseIf provider = "TouhouDB" Then
+            LyricsLib.DatabaseUrl = New Uri("https://touhoudb.net")
+        End If
+
+
         Dim LyricsResult As VocaDbLyricsLib.LyricsResult = LyricsLib.GetLyricsFromName(trackTitle, artist)
         Dim LyricsWriter As New IO.StringWriter
 
