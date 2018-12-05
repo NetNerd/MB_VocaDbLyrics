@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("MB_VocaDbLyrics")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("MB_VocaDbLyrics")> 
-<Assembly: AssemblyCopyright("Copyright ©  2015")> 
+<Assembly: AssemblyProduct("MB_VocaDbLyrics")>
+<Assembly: AssemblyCopyright("Copyright ©  2015-2018")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.5")>
-<Assembly: AssemblyFileVersion("0.5")>
+<Assembly: AssemblyVersion("0.7")>
+<Assembly: AssemblyFileVersion("0.7")>
