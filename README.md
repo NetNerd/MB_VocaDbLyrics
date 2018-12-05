@@ -10,7 +10,8 @@ VocaDbLyricsLib is used to retrieve the lyrics. This is another open source proj
 
 ### Usage notes:
 Usage is simple, just place any DLLs in the MusicBee plugins directory and set up your lyrics provider priorities from the 'Tags (2)' settings page.
-A visual interface is provided via the MusicBee plugin settings page. This allows you to set the interface language, what languages to display in the returned lyrics (among other things).
+A visual interface is provided via the MusicBee plugin settings page. This allows you to set the interface language, what languages to display in the returned lyrics (among other things).  
+Codes for additional languages can be found in the '639-1' column of [this wikipedia article](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
 
 Multilingual support is very basic and ideally should be rewritten, but for now this isn't a major issue.
 User-defined languages are currently not supported.
