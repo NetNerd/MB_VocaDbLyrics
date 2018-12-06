@@ -13,17 +13,14 @@ Public Class ConfigPanel
 
     Private Shared LblBlanks As Label
     Private Shared WithEvents BlanksCB As ComboBox
-    
-    Private Shared LblForceArtist As Label
-    Private Shared WithEvents ForceArtistCB As ComboBox
 
     Private Shared WithEvents LblForceArtist As Label
     Private Shared WithEvents ForceArtistCB As CheckBox
 
-    Private Shared WithEvents LblArtistWhitelist As Label
+    Private Shared LblArtistWhitelist As Label
     Private Shared WithEvents ArtistWhitelistBox As TextBox
 
-    Private Shared WithEvents LblUpdateCheck As Label
+    Private Shared LblUpdateCheck As Label
     Private Shared WithEvents UpdateCheckCB As CheckBox
 
     Private Shared Border1 As Panel
