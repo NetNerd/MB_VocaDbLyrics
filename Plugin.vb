@@ -170,7 +170,7 @@ Public Class Plugin
 
         If MySettings.ArtistWhitelist.Length > 0 Then
             Dim ArtistWhiteList As String() = MySettings.ArtistWhitelist.ToLower.Split(",")
-            Dim artistLower = multiartist.ToLower()
+            Dim artistLower = artist.ToLower()
             Dim FoundArtist = False
 
             For Each WLArtist In ArtistWhiteList
