@@ -20,7 +20,7 @@ Public Class ConfigPanel
     Private Shared LblArtistWhitelist As Label
     Private Shared WithEvents ArtistWhitelistBox As TextBox
 
-    Private Shared LblUpdateCheck As Label
+    Private Shared WithEvents LblUpdateCheck As Label
     Private Shared WithEvents UpdateCheckCB As CheckBox
 
     Private Shared Border1 As Panel
