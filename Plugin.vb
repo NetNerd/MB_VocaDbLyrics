@@ -49,7 +49,7 @@ Public Class Plugin
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
         about.VersionMinor = 9
-        about.Revision = 1
+        about.Revision = 2
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB, UtaiteDB, and TouhouDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
         about.Author = "NetNerd"
