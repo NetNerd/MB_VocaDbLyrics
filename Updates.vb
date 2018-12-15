@@ -3,15 +3,17 @@
     Private Shared WebProx As Net.WebProxy
     Private Shared VerMajor As Integer
     Private Shared VerMinor As Integer
+    Private Shared VerRevision As Integer
     Private Shared UILang As LanguageClass.Language
     Private Shared Path As String
     Public Shared LastUpdate As New DateTime(0)
 
-    Public Shared Sub UpdateCheck(Proxy As Net.WebProxy, VersionMajor As Integer, VersionMinor As Integer, StoragePath As String, UILanguage As LanguageClass.Language)
+    Public Shared Sub UpdateCheck(Proxy As Net.WebProxy, VersionMajor As Integer, VersionMinor As Integer, VersionRevision As Integer, StoragePath As String, UILanguage As LanguageClass.Language)
         If UpdateThread.IsAlive = False Then
             WebProx = Proxy
             VerMajor = VersionMajor
             VerMinor = VersionMinor
+            VerRevision = VersionRevision
             UILang = UILanguage
             Path = StoragePath
 
@@ -30,7 +32,18 @@
         SettingsClass.SaveFile("LastUpdateCheck", Path, LastUpdate.ToUniversalTime.ToString("u"), UILang, True)
 
         Dim LatestVer() As Integer = GetLatestVersion()
-        If (LatestVer(0) > VerMajor) OrElse (LatestVer(0) = VerMajor And LatestVer(1) > VerMinor) Then
+        Dim IsNewVer As Boolean = False
+
+        If LatestVer(0) > VerMajor Then
+            IsNewVer = True
+        ElseIf LatestVer(0) = VerMajor And LatestVer(1) = (VerMinor * 10 + VerRevision) Then
+            IsNewVer = False
+        ElseIf LatestVer(0) = VerMajor And LatestVer(1) > VerMinor Then
+            IsNewVer = True
+        End If
+
+
+        If IsNewVer Then
             If MsgBox(
                 LanguageClass.FallbackHelper(UILang.UpdateMsg, LanguageClass.LangEnUS.UpdateMsg) & vbNewLine & vbNewLine &
                 LanguageClass.FallbackHelper(UILang.CurVer, LanguageClass.LangEnUS.CurVer) & VerMajor & "." & VerMinor & vbNewLine &

@@ -49,7 +49,7 @@ Public Class Plugin
         about.Name = "VocaDB Lyrics Plugin"
         about.VersionMajor = 0
         about.VersionMinor = 9
-        about.Revision = 2
+        about.Revision = 3
         about.PluginInfoVersion = about.VersionMinor
         about.Description = "A lyrics provider for VocaDB, UtaiteDB, and TouhouDB.     (v" & about.VersionMajor & "." & about.VersionMinor & ")"
         about.Author = "NetNerd"
@@ -199,7 +199,7 @@ Public Class Plugin
 
         If MySettings.UpdateChecking Then
             If Updates.LastUpdate < DateTime.Now.AddDays(-1) Then
-                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.UILanguage)
+                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, about.Revision, mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.UILanguage)
             End If
         End If
 
