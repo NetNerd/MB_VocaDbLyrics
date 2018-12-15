@@ -199,7 +199,7 @@ Public Class Plugin
 
         If MySettings.UpdateChecking Then
             If Updates.LastUpdate < DateTime.Now.AddDays(-1) Then
-                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.UILanguage)
+                Updates.UpdateCheck(WebProxy, about.VersionMajor, about.VersionMinor, about.Revision, mbApiInterface.Setting_GetPersistentStoragePath().TrimEnd("\/".ToCharArray) & "\" & SettingsFolder & "\", MySettings.UILanguage)
             End If
         End If
 
