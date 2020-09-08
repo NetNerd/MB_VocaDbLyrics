@@ -207,7 +207,7 @@ Public Class Plugin
         If provider = "UtaiteDB" Then
             LyricsLib.DatabaseUrl = New Uri("https://utaitedb.net")
         ElseIf provider = "TouhouDB" Then
-            LyricsLib.DatabaseUrl = New Uri("https://touhoudb.net")
+            LyricsLib.DatabaseUrl = New Uri("https://touhoudb.com")
         End If
 
 
